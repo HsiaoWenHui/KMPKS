@@ -171,14 +171,14 @@ ASGI_APPLICATION = 'AINOTE.routing.application'
 #           },
 #       },
 #   }
-CHANNEL_LAYERS = {
-      'default': {
-          'BACKEND': 'channels_redis.core.RedisChannelLayer',
-          'CONFIG': {
-               "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
-          },
-      },
-  }
+# CHANNEL_LAYERS = {
+#       'default': {
+#           'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#           'CONFIG': {
+#                "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+#           },
+#       },
+#   }
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': False,
