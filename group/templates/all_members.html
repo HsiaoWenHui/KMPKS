@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="site-section">
+    <div class="container">
+        <div class="row">
+            <h4 class="col-8 ">Group</h4>
+            <h1 class="col-8 section-title">{{g_unit.name}}</h1>
+            <h4 class="col-8 ">成員列表</h4>
+        </div>
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Username</th>
+               
+                    {% if g_unit.owner == user%}
+                    <th scope="col">state</th>
+                    <th scope="col">remove</th>
+                    {% endif%}
+                </tr>
+                </thead>
+                <tbody>
+                {% for m in member_list %}
+                <tr>
+                    {% if m.memberID == g_unit.owner %}
+                    <th scope="row">管理員</th>
+                    {%else%}
+                    <th scope="row">{{number}}</th>
+                    {% endif %}
+                    <td><a href="/personal/{{m.memberID.id}}/" >{{m.memberID.name}}</a></td>
+                    {% if g_unit.owner == user%}
+                        {% if m.state == 1 %}
+                        <td><a href="/group/{{g_unit.id}}/{{m.memberID.id}}/addMember/" >允許加入</a></td>
+                        {% elif m.state == 0 %}
+                        <td>已加入</td>
+                        {% endif %}
+                        {% if m.memberID != g_unit.owner%}
+                        <td><a href="/group/{{g_unit.id}}/{{m.memberID.id}}/leaveGroup/" onclick="return deleteAlert()">remove</a></td>
+                    
+                        {% endif %}
+                        {% endif %}
+                </tr>
+              {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+</div>
+
+<script>  
+    function deleteAlert(){
+      var msg = "您真的確定要刪除此成員嗎？";
+      if (confirm(msg)==true){
+        return true;
+        
+      }else{
+        return false;
+      }
+    }
+  </script>
+
+
+{% endblock  %}

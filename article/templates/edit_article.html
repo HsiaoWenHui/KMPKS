@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<link href='{%static "css/tagInput.css"%}' rel="stylesheet">
+<link href='{%static "css/Simditor/simditor.css"%}' rel="stylesheet">
+<script type="text/javascript" src='{%static "js/jquery-3.3.1.min.js"%}'></script>
+<script>
+  $(document).ready(function(){
+    $('#tags').tagInput({
+      labelClass:"badge badge-default"
+    });
+    $('#newCategory').tagInput({
+      labelClass: "badge badge-default"
+    });
+    $(function() {
+      var editor = new Simditor({
+          textarea: $("#id_content"),
+          placeholder: "在此撰寫文章",
+          toolbar: [ 'title', 'bold', 'italic', 'underline', 'strikethrough', 'color','mark', '|', 'ol', 'ul', 'blockquote','hr','|','indent','outdent','alignment', 'code', 'table', 'link','image'],
+          pasteImage:true,
+          upload: {
+              url: '/simditor/upload/',
+              fileKey: 'upload',
+              image_size: 1024 * 1024 * 4   
+          },
+      });
+      Simditor.locale = 'en-US'
+    });
+    //設定分類最多只能五項
+    var last_valid_selection = null;
+    $('#oldCategory').change(function(event) {
+
+            if ($(this).val().length > 5) {
+
+              $(this).val(last_valid_selection);
+            } else {
+              last_valid_selection = $(this).val();
+            }
+    });
+  });
+</script>
+
+<div class="container">
+    <form  action="/article/{{aID}}/edit/" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label >標題</label>
+            <input type="text" class="form-control" name="newTitle" id="newTitle" placeholder="" value="{{title}}" >
+            
+          </div>
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">隱私設定</label>
+            <select class="form-control" id="newPrivate" name="newPrivate">
+              <option value=0 {% if private == 0 %}selected="selected"{% endif %}>公開</option>
+              <option value=1 {% if private == 1 %}selected="selected"{% endif %}>只限本人</option>
+              <option value=2 {% if private == 2 %}selected="selected"{% endif %}>限群組成員</option>
+            </select>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">群組設定</label>
+          {% for g in group_list%}
+          <div class="checkbox-inline">
+            <label>
+              
+              <input type="checkbox" name="checkboxs" value="{{g.groupID.id}}" {% if g.groupID.id in articleGroup_list %} checked {% endif %}>{{g.groupID.name}}
+            </label>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="form-group row">
+          <div class="col-md-4 col-sm-12">
+            <label for="exampleFormControlSelect1">分類設定 (最多五項)</label>
+            <div class="checkbox-inline " id="category">
+              <select multiple class=" form-control selectpicker" data-container="body" data-live-search="true" data-hide-disabled="true"
+                 data-virtual-scroll="false" name="oldCategory"id="oldCategory">
+                {% for c in category_list%}
+                <option value={{c.id}} {%if c in categories %} selected {%endif%}>{{c.name}}</option>
+                {% endfor %}
+              </select>
+              
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-12">
+            <label for="exampleFormControlSelect1">或者新增分類</label>
+            <div class="form-control tags" id="newCategory" >
+              <input type="text" class="labelinput" placeholder="輸入分類名稱">
+              <input type="hidden" name="newCategory">
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+            <label>內文</label>
+            <textarea id="id_content"name="newContent" autofocus>{{content}}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="tags">Tags: (最多五項)</label>
+            <div class="form-control tags" id="tags">
+              <input type="text" class="labelinput">
+              <input type="hidden" value="{% for t in tags%}{{t.name}},{%endfor%}" name="newTags">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3">
+              <button type="submit" class="btn btn-outline-dark" onClick= " validateForm(this.form); return false">發布</button>
+            </div>
+            <div class="col-3">
+              <a class="btn btn-outline-dark"href="/article/{{aID}}/remove/"onclick="return deleteAlert()">刪除文章</a> 
+            </div>
+          </div>
+            
+
+      </form>
+      
+</div>
+<script>  
+  function deleteAlert(){
+    var msg = "您真的確定要刪除文章嗎？";
+    if (confirm(msg)==true){
+      return true;
+      
+    }else{
+      return false;
+    }
+  }
+  function validateForm(form)
+  {
+      if (!checkTitle(form.newTitle)) {
+         
+          return false;
+      }
+      form.submit();
+      return(true);
+
+  }
+  
+  function checkTitle(control){
+      var content=control.value
+      if (content==''){
+          alert("錯誤：請輸入Title ");
+          return (false);
+      }
+      if(content.length>50){
+          alert("錯誤：Title 最長50字元");
+          return (false);
+      }
+      
+      return true
+  }
+  
+ 
+</script>
+{% endblock  %}

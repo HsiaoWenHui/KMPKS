@@ -1,0 +1,128 @@
+
+{% load static %}
+
+
+<head>
+    <title>KnowledgeManagementSystem</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <!-- <link href='{%static "css/login/animate/animate.css"%}' rel="stylesheet"> -->
+	<!--===============================================================================================-->
+	<!-- <link href='{%static "css/login/css-hamburgers/hamburgers.min.css"%}' rel="stylesheet"> -->
+	<!--===============================================================================================-->
+	<!-- <link href='{%static "css/login/animsition/css/animsition.min.css"%}' rel="stylesheet"> -->
+	<!--===============================================================================================-->
+	<!-- <link href='{%static "css/login/select2/select2.min.css"%}' rel="stylesheet"> -->
+	<!--===============================================================================================-->
+	<!-- <link href='{%static "css/login/daterangepicker/daterangepicker.css"%}' rel="stylesheet"> -->
+	<!--===============================================================================================-->
+	<link href='{%static "css/login/util.css"%}' rel="stylesheet">
+	
+    <link href='{%static "css/home/main.css"%}'rel="stylesheet">
+    <link href='{%static "css/login/main.css"%}' rel="stylesheet">
+    <noscript><link rel="stylesheet" href='{%static "css/home/noscript.css"%}'/></noscript>
+    <link rel="shortcut icon" href="#" />
+</head>
+<body class="is-preload">
+
+    <!-- Wrapper -->
+        <div id="wrapper">
+
+            <!-- Header -->
+                <header id="header">
+                    <div class="logo">
+                        <span class="icon fa-gem"></span>
+                    </div>
+                    <div class="content">
+                        <div class="inner">
+                            <a href="/"><h1>Welcome</h1></a>
+                            
+                            <form class="login100-form validate-form" action="" method="post">
+                                {% csrf_token %}
+                                
+                                <div id="login">
+                                    <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate="Enter username">
+                                        <input class="input100 " type="text" name="username" value=""id="username">
+                                        <span class="focus-input100" data-placeholder="Username"></span>
+                                    </div>
+            
+                                    <div class="wrap-input100 validate-input m-b-50" data-validate="Enter password">
+                                        <input class="input100" type="password" name="password" value="" id="password">
+                                        <span class="focus-input100" data-placeholder="Password"></span>
+                                    </div>
+            
+                                    <div class="container-login100-form-btn">
+            
+                                        <input class="login100-form-btn" type="submit" value="Login" />
+                                    </div>
+                                    <ul class="login-more p-t-50">
+                                        <li class="m-b-8">
+                                            <span class="txt1">
+                                                Forgot
+                                            </span>
+            
+                                            <a href="#" class="txt2"onclick="forget();return false">
+                                                Username / Password?
+                                            </a>
+                                        </li>
+            
+                                        <li>
+                                            <span class="txt1">
+                                                Don’t have an account?
+                                            </span>
+            
+                                            <a href="/accounts/registration" class="txt2" >
+                                                Sign up
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+            
+            
+            
+                            </form>
+                        </div>
+                    </div>
+                </header>
+
+ 
+
+            
+                 <footer id="footer">
+                    <p class="copyright">&copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+                </footer> 
+
+        </div>
+
+    <!-- BG -->
+    <div id="bg"></div>
+
+    <!-- Scripts -->
+    {% if messages %}
+    <script>
+            {% for msg in messages %}
+                alert('{{ msg.message }}');
+            {% endfor %}
+        
+            
+    </script>
+    {% endif %}
+    <script>
+        function forget(){
+                alert("請寄信至 1205hsiao@gmail.com");
+                return (false);
+            }
+    </script>
+    <script src='{%static "js/jquery-3.5.1.min.js"%}'></script>
+    <script src='{%static "js/bootstrap.min.js"%}'></script>
+    
+    <script src='{%static "js/home/browser.min.js"%}'></script>
+    <script src='{%static "js/login/main.js"%}'></script>
+    <script src='{%static "js/home/breakpoints.min.js"%}'></script>
+    <script src='{%static "js/home/util.js"%}'></script>
+    <script src='{%static "js/home/main.js"%}'></script>
+
+</body>
+
+

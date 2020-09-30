@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block mycss %}
+<link href='{%static "css/menu/chatroom.css"%}'rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+<div class="site-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 section-title">
+                <div class="row">
+                    <h1 class="col-md-9">Group</h1>
+                    <h1 class="col-md-9">{{g_unit.name}}</h1>
+                    {% if user == g_unit.owner%}
+                        <div class="col-md-3">
+                            <a class="btn btn-outline-dark card-button"  href="edit">Edit Group</a>
+                        </div>
+                    {% endif %}
+                            
+                </div> 
+                <h5 class="contents">{{g_unit.intro}}</h5>
+                <div class="row contents">
+                    <div class="col-12">
+                        <span class="caption section-title">
+                            <h2>Articles</h2>
+                        </span>
+                    </div>
+                    {% for a in article_list %}
+                    <div class="col-md-6">
+                        <div class="post-entry-2 d-flex bg-light">
+                            <div class="thumbnail" style="background-image: url('/static/img/img_v_1.jpg')"></div>
+                            <div class="contents">
+                                <h2><a href="/article/{{a.articleID.id}}/">{{a.articleID.title}}</a></h2>
+                                <div class="post-meta">
+                                    <span class="d-block">
+                                        <a href="/personal/{{a.articleID.author.id}}/">{{a.articleID.author.name}}</a> 
+                                        in 
+                                        {% for i in article_category%}
+                                            {% if i.articleID == a.articleID%}
+                                                <a class="more"href="/group/{{g_unit.id}}/{{i.categoryID.id}}/category/">{{i.categoryID.name}}</a>,
+                                            {%endif%}
+                                        {%endfor%}
+                                    </span>
+                                    <span class="date-read">{{a.articleID.pubtime|date:"M d, Y"}}  <span class="mx-1">&bullet;</span>{{a.articleID.like|floatformat:"0"}} views<span
+                                            class="icon-star2"></span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+            </div>
+            
+            <div class="col-lg-3 ml-auto">
+                <div>
+                    <p>創立時間 : {{g_unit.createTime|date:"M d, Y"}}</p>
+                    <p>成員數 : {{a_member}}</p>
+                    <p>總文章數 : {{a_article}}</p>
+                </div>
+                <div>
+                    <p>管理者 :
+                        <a href="/personal/{{g_unit.owner.id}}/" class="more">{{g_unit.owner.name}}</a>
+                    </p>
+                </div>
+                <p>
+                    <a href="/group/{{g_unit.id}}/allmembers/" class="more"> >See All Member <span class="icon-keyboard_arrow_right"></span></a>
+                </p>
+                {% if g_unit.owner != user%}
+                <p>
+                    <a href="/group/{{g_unit.id}}/{{m.memberID.id}}/leaveGroup/" onclick="return deleteAlert()" class="more">Leave group<span class="icon-keyboard_arrow_right"></span></a>
+                </p>
+                {% endif %}
+                <p style="margin-bottom: 0;">群組分類:</p>
+                {%for c in category_list%}
+                   <a href="/group/{{g_unit.id}}/{{c.id}}/category/" class="more">{{c.name}},</a>
+                {%endfor%}
+            </div>
+            
+            <div class="chatbox chatbox22 chatbox--tray">
+                <div class="chatbox__title">
+                    <h5><a href="javascript:void()">Leave a message</a></h5>
+                    <button class="chatbox__title__close">
+                        <span>
+                            <svg viewBox="0 0 12 12" width="12px" height="12px">
+                                <line stroke="#FFFFFF" x1="11.75" y1="0.25" x2="0.25" y2="11.75"></line>
+                                <line stroke="#FFFFFF" x1="11.75" y1="11.75" x2="0.25" y2="0.25"></line>
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+               
+                <div class="chatbox__body frame" id="chatbox__body">
+                    
+                    <ul class="chatbox__body__message chat-ul" id="chat-msg">
+                        {% for m in msg %}
+                    
+                        <li style="width:100%"> 
+                                {% if m.owner.name == name %}
+                                <div class="msj-rta macro">
+                                    <div class="text text-r">
+                                        <p>{{m.owner.name}}:</p>
+                                        <p>{{m.message}}</p>
+                                        <p><small>{{m.timestamp}}</small></p>
+                                    </div>
+                                    <div class="avatar" style="padding:0px 0px 0px 10px !important"></div>
+                                {% else %}
+                                <div class="msj macro">
+                                    <div class="text text-l">
+                                        <p>{{m.owner.name}}:</p>
+                                        <p>{{m.message}}</p>
+                                        <p><small>{{m.timestamp}}</small></p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </li> 
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                    <div class="input-group">
+                        <input id="btn-input" type="text" class="form-control input-sm chat_set_height" placeholder="Type your message here..." tabindex="0" dir="ltr" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" contenteditable="true" />
+                            
+                        <span class="input-group-btn">
+                            <button class="btn bt_bg btn-sm chat-btn" id="btn-chat">Send</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        
+    </div>
+
+
+<script src='{%static "js/jquery-3.5.1.min.js"%}'></script>
+<script src='{%static "js/bootstrap.min.js"%}'></script>
+<script src='{%static "js/menu/chat.js"%}'></script>
+<script>  
+    function deleteAlert(){
+      var msg = "您真的確定要退出群組嗎？";
+      if (confirm(msg)==true){
+        return true;
+        
+      }else{
+        return false;
+      }
+    }
+</script>
+<script>
+    $('#chatbox__body').scrollTop(9999999);
+    var name = '{{ name }}';
+    var group_id='{{g_unit.id}}'
+    var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+    var websocket_str= ws_scheme+'://' + window.location.host + '/ws/group/' + group_id + '/';
+    console.log(websocket_str)
+    try {
+        var chatSocket = new WebSocket(websocket_str);
+        console.log(chatSocket)
+    }catch(e) {
+        console.log("hi");
+        console.error(e);
+        console.log(e);
+    }
+    
+    // while get message append to textarea
+    
+    chatSocket.onmessage = function (e) {
+        var data = JSON.parse(e.data);
+        console.log(data);
+        var msg_owner=data.user_name;
+        var message = data['message'];
+        if (msg_owner == name){
+             control = '<li style="width:100%;">' +
+                        '<div class="msj-rta macro">' +
+                            '<div class="text text-r">' +
+                                '<p>'+ msg_owner+':'+'</p>'+
+                                '<p>'+message+'</p>' +
+                                '<p><small>'+data.now_time+'</small></p>' +
+                            '</div>' +
+                        '<div class="avatar" style="padding:0px 0px 0px 10px !important"></div>' +                                
+                  '</li>';
+            
+        }else{
+            
+                control='<li style="width:100%">' +
+                        '<div class="msj macro">' +
+                            '<div class="text text-l">' +
+                                 '<p>'+ msg_owner+':'+'</p>'+
+                                '<p>'+message+'</p>' +
+                                '<p><small>'+data.now_time+'</small></p>' +
+                            '</div>' +
+                        '</div>' +
+                    '</li>';  
+        }
+        $("#chat-msg").append(control);
+        $('#chatbox__body').scrollTop(9999999);
+    };
+    
+    // while close print log
+    chatSocket.onclose = function (e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+    document.querySelector('#btn-input').focus();
+    document.querySelector('#btn-input').onkeyup = function (e) {
+        if (e.keyCode === 13) {  // enter, return
+            document.querySelector('#btn-chat').click();
+        }
+    };
+
+    // click submit and send message to server by websocket
+    document.querySelector('#btn-chat').onclick = function (e) {
+        var messageInputDom = document.querySelector('#btn-input');
+        var message = messageInputDom.value;
+        chatSocket.send(JSON.stringify({
+            'message': message
+        }));
+
+        messageInputDom.value = '';
+    };
+</script>
+
+{% endblock  %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <form  action="/group/add/" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label >群組名稱</label>
+            <input type="text" class="form-control" name="newTitle" id="newTitle" placeholder="" >
+            
+          </div>
+        
+        
+        <div class="form-group">
+            <label>群組介紹</label>
+            <textarea class="form-control form-control-textarea" id="newIntro"name="newIntro"></textarea>
+          </div>
+
+        <button type="submit" class="btn btn-outline-dark" onClick=" validateForm(this.form); return false">發布</button>
+      </form>
+</div>
+<script >
+  function validateForm(form)
+  {
+      if (!checkTitle(form.newTitle)) {
+         
+          return false;
+      }
+      
+      else if (!checkIntro(form.newIntro)) {
+         
+          return false;
+      }
+      
+      
+      form.submit();
+      return(true);
+
+  }
+  
+
+  function checkTitle(control){
+      var content=control.value
+      if (content==''){
+          alert("錯誤：請輸入Title ");
+          return (false);
+      }
+      if(content.length>50){
+          alert("錯誤：Title 最長50字元");
+          return (false);
+      }
+      
+      return true
+  }
+  function checkIntro(control){
+    var intro=control.value
+    if(intro.length>1000){
+          alert("錯誤：introduction 最長1000字元");
+          return (false);
+      }
+    return true;
+  }
+ 
+</script>
+{% endblock  %}

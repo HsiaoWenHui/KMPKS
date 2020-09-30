@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="site-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 section-title">
+                <div class="row">
+                    <h1 class="col-9">{{name}}</h1>
+                    {% if user == owner%}
+                        <div class="col-3">
+                            <a class="btn btn-outline-dark card-button"  href="/personal/editProfile/">Edit profile</a>
+                        </div>
+                    {% endif %}
+                            
+                </div> 
+                <h5 class="intro-content">{{intro}}</h5>
+                <div class="row contents">
+                    <div class="col-12">
+                        <span class="caption section-title">
+                            <h2>Articles</h2>
+                        </span>
+                    </div>
+                    {% for article in article_list %}
+                    <div class="col-lg-4 col-md-6 card-block">
+                        <div class="card ">
+                            <img src="https://picsum.photos/500/230" alt="AVATAR" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">{{article.title}}</h5>
+                                <span class="card-owner">by <a href="/personal/{{article.author.id}}">{{article.author.name}}</a> </span>
+                                <!-- <p class="card-text">{{article.content|safe}}</p> -->
+                                <p class="card-owner"> Categories:
+                                    {% for c in article.categorys.all %} 
+                                    
+                                    <a href="/article/category/{{c.id}}">{{c.name}}</a>,
+                                    
+                                    {% endfor %}
+                                </p>
+                                <p class="card-owner">
+                                    Tags: 
+                                    {% for t in article.tags.all%}
+                                    <a href="/article/tags/{{t.id}}">#{{t.name}}</a>,
+                                    {% endfor %}
+            
+                                </p>
+                                <a class="btn btn-outline-dark card-button" href="/article/{{article.id}}">more</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-lg-4 card-block">
+                        <div class="card">
+                            <img src="https://picsum.photos/500/230" alt="AVATAR" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">尚無文章</h5>
+                                <p class="card-text">目前您還沒有自己的文章哦</p>
+                                <a class="btn btn-outline-dark card-button" href="/article/add/">開始撰寫</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="col-12">
+                        <span class="caption section-title">
+                            <h2>Groups</h2>
+                        </span>
+                    </div>
+                    {% for g in member_list %}
+                    <div class="col-lg-4 card-block">
+                        <div class="card ">
+                            <img src="https://picsum.photos/500/230" alt="AVATAR" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">{{g.groupID.name}}</h5>
+                                
+                                <p class="card-text">{{g.groupID.intro}}</p>
+                                <a class="btn btn-outline-dark card-button" href="/group/{{g.groupID.id}}">more</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-lg-4 card-block">
+                        <div class="card">
+                            <img src="https://picsum.photos/500/230" alt="AVATAR" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">尚無群組</h5>
+                                <p class="card-text">目前您還沒有自己的群組哦</p>
+                                <a class="btn btn-outline-dark card-button" href="/group/add/">創立群組</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-lg-3 ml-auto">
+                <div>
+                   
+                  
+                    <p>總文章數 : {{article_amount}}</p>
+                </div>
+                
+                <p style="margin-bottom: 0;">群組分類:</p>
+                {%for c in categories%}
+                   <a href="/article/category/{{c.id}}" class="more">{{c.name}},</a>
+                {%endfor%}
+            </div>
+        </div>
+        
+    </div>
+
+
+
+{% endblock  %}

@@ -1,0 +1,281 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+<script type="text/javascript" src='{%static "js/jquery-3.3.1.min.js"%}'></script>
+<script>
+  $(document).ready(function () {
+    $('#tags').tagInput({
+      labelClass: "badge badge-default"
+    });
+    $('#newCategory').tagInput({
+      labelClass: "badge badge-default"
+    });
+    $("#addCategory").click(function(){
+      var x=getCategory()
+      $.post("addCategory/",
+      {
+        newCategory:x
+      },
+      function(){
+        window.location.reload();
+      });
+    });
+    $("#updateCategory").click(function(){
+      var result=getUpdate_category()
+      c=result[0]
+      a=result[1]
+      console.log(c)
+      console.log(a)
+      $.post("updateCategory/",
+      {
+        newCate:c,
+        aIndex:a
+      },
+      function(){
+        window.location.reload();
+      });
+    });
+  });
+</script>
+
+<div class="container">
+  <nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+      <a class="nav-item nav-link active" id="nav-intro-tab" data-toggle="tab" href="#nav-intro" role="tab" aria-controls="nav-intro" aria-selected="true">Intro</a>
+      <a class="nav-item nav-link" id="nav-member-tab" data-toggle="tab" href="#nav-member" role="tab" aria-controls="nav-member" aria-selected="false">Member</a>
+      <a class="nav-item nav-link" id="nav-category-tab" data-toggle="tab" href="#nav-category" role="tab" aria-controls="nav-category" aria-selected="false">Category</a>
+      <a class="nav-item nav-link" id="nav-article-tab" data-toggle="tab" href="#nav-article" role="tab" aria-controls="nav-article" aria-selected="false">Article</a>
+    </div>
+  </nav>
+  
+    <div class="tab-content" id="nav-tabContent">
+      
+      <div class="tab-pane fade show active" id="nav-intro" role="tabpanel" aria-labelledby="nav-intro-tab">
+        <form  action="/group/{{gID}}/edit/" method="post">{% csrf_token %}
+          <div class="form-group">
+            <label >群組名稱</label>
+            <input type="text" class="form-control" name="newTitle" id="newTitle" placeholder="" value="{{name}}">
+          </div>
+          <div class="form-group">
+            <label>群組介紹</label>
+            <textarea class="form-control form-control-textarea" id="newIntro"name="newIntro">{{intro}}</textarea>
+          </div>
+          <div class="row">
+            <div class="col-6 text-center">
+              <button type="submit" class="btn btn-outline-dark "onClick=" validateForm(this.form); return false">發布</button>
+            </div>
+            <div class="col-6 text-center">
+              <a class="btn btn-outline-dark "href="/group/{{gID}}/remove/" onclick="return delete_group_Alert()">刪除群組</a> 
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="tab-pane fade" id="nav-article" role="tabpanel" aria-labelledby="nav-article-tab">
+      
+          <table class="table table-hover"style="table-layout:fixed">
+            <thead>
+              <tr>
+                <th scope="col">文章標題</th>
+                <th scope="col">文章作者</th>
+                <th scope="col">分類</th>
+                <th scope="col">移除</th>
+              </tr>
+            </thead>
+          <tbody>
+            {% for a in article_list%}
+            <tr>
+              <td>{{a.articleID.title}}</td>
+              <td>{{a.articleID.author}}</td>
+              <td>
+                <div class="checkbox-inline " id="category">
+                  <select multiple class="dropdown-btn selectpicker" data-container="body" data-hide-disabled="true"
+                                data-virtual-scroll="false" name="oldCategory" id="{{a.articleID.id}}">
+                  <!-- 列出群組的所有分類 -->
+                  {% for c in category_list %}
+                  <!-- 判斷是否符合文章分類表 -->
+                    <option value={{c.id}} 
+                    {%for unit in article_category_list %} 
+                      {%if c == unit.categoryID and a.articleID == unit.articleID %} 
+                        selected 
+                      {%endif%}
+                    {%endfor%}>{{c.name}}</option>
+                  {% endfor%}
+                  </select>          
+                </div>
+              </td>
+              <td>
+                <a href="/group/{{gID}}/{{a.articleID.id}}/delArticle/">X</a>
+              </td>
+            </tr>
+            {%endfor%}
+            </tbody>
+            </table>
+          <div class="col-12 text-center">
+            <button type="submit" class="btn btn-outline-dark " id="updateCategory">更新</button>
+          </div>
+      </div>
+      <div class="tab-pane fade" id="nav-member" role="tabpanel" aria-labelledby="nav-membert-tab">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Username</th>
+              {% if e_group.owner == user%}
+              <th scope="col">state</th>
+              <th scope="col">remove</th>
+              {% endif%}
+            </tr>
+          </thead>
+          <tbody>
+          {% for m in member_list %}
+            <tr>
+            {% if m.memberID == e_group.owner %}
+              <th scope="row">管理員</th>
+            {%else%}
+              <th scope="row">{{number}}</th>
+            {% endif %}
+              <td><a href="/personal/{{m.memberID.id}}/" >{{m.memberID.name}}</a></td>
+            {% if e_group.owner == user%}
+              {% if m.state == 1 %}
+                <td><a href="/group/{{e_group.id}}/{{m.memberID.id}}/addMember/" >允許加入</a></td>
+              {% elif m.state == 0 %}
+                <td>已加入</td>
+              {% endif %}
+              {% if m.memberID != e_group.owner%}
+                <td><a href="/group/{{e_group.id}}/{{m.memberID.id}}/leaveGroup/" onclick="return delete_member_Alert()">remove</a></td>
+              {% endif %}
+            {% endif %}
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane fade" id="nav-category" role="tabpanel" aria-labelledby="nav-category-tab">
+        <table class="table table-hover"style="table-layout:fixed">
+          <thead>
+            <tr>
+              <th scope="col">分類名稱</th>
+              <th scope="col">分類新增/移除</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%for c in category_list%}
+            <tr>
+              <td scope="row">{{c.name}}</td>
+              <td scope="row"><a href="/group/{{e_group.id}}/{{c.id}}/delCategory/" >X</a></td>
+            </tr>
+            {%endfor%}
+            <tr>
+              <td scope="row">
+                <div class=" tags" id="newCategory" >
+                  <input type="text" class="labelinput" placeholder="輸入分類名稱">
+                  <input type="hidden" name="newCategory">
+                </div>
+              </td>
+              {% csrf_token %}
+              <td scope="row"><button class="btn dropdown-btn " id="addCategory">新增</button></td>
+              
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+</div>
+
+<script>  
+  function delete_group_Alert(){
+    var msg = "您真的確定要刪除群組嗎？";
+    if (confirm(msg)==true){
+      return true;
+      
+    }else{
+      return false;
+    }
+  }
+  function delete_member_Alert(){
+      var msg = "您真的確定要刪除此成員嗎？";
+      if (confirm(msg)==true){
+        return true;
+        
+      }else{
+        return false;
+      }
+  }
+  function delete_article_Alert(){
+      var msg = "您真的確定要刪除此文章嗎？";
+      if (confirm(msg)==true){
+        return true;
+        
+      }else{
+        return false;
+      }
+  }
+  function getCategory(){
+    var x=document.getElementsByName("newCategory")[0].value
+    console.log(x)
+    return x
+  }
+  function getUpdate_category(){
+    return [getNewCategory(),getArticleIndex()];
+  }
+  function getNewCategory(){
+    var x=[] 
+    $("[name='oldCategory']").each(function(){
+      x.push($(this).val())
+    });
+    return x
+  }
+  function getArticleIndex(){
+    var aID=[]
+    $("[name='oldCategory']").each(function(){
+      aID.push($(this).attr("id"))
+    });
+    return aID
+  }
+  function validateForm(form)
+  {
+      if (!checkTitle(form.newTitle)) {
+         
+          return false;
+      }
+      
+      else if (!checkIntro(form.newIntro)) {
+         
+          return false;
+      }
+      
+      
+      form.submit();
+      return(true);
+
+  }
+  
+
+  function checkTitle(control){
+      var content=control.value
+      if (content==''){
+          alert("錯誤：請輸入Title ");
+          return (false);
+      }
+      if(content.length>50){
+          alert("錯誤：Title 最長50字元");
+          return (false);
+      }
+      
+      return true
+  }
+  function checkIntro(control){
+    var intro=control.value
+    if(intro.length>1000){
+          alert("錯誤：introduction 最長1000字元");
+          return (false);
+      }
+    return true;
+  }
+ 
+</script>
+{% endblock  %}

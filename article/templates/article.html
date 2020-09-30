@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+  function reply(id){
+    var link=$("#"+id);
+    link.hide()
+    var frame=$("#reply_message"+id);
+    var txt=document.createElement("textarea");
+    txt.type="textarea";
+    txt.name="replyTxt";
+    txt.setAttribute("placeholder","reply");
+    txt.className="form-control"
+    txt.style.cssText="height:100px"
+    document.getElementById("reply_message"+id).appendChild(txt);
+
+    var parent=document.createElement("input");
+    parent.type="label";
+    parent.name="parent";
+    parent.value=id;
+    parent.style.cssText="display:none"
+    document.getElementById("reply_message"+id).appendChild(parent);
+    
+    var reply_btn=document.createElement("input");
+    reply_btn.type="submit"
+    reply_btn.name="reply_btn"
+    reply_btn.value="enter"
+    reply_btn.className="btn"
+    reply_btn.style.cssText="margin:10px"
+    document.getElementById("reply_message"+id).appendChild(reply_btn)
+  }
+</script>
+    <div class="site-section" style="padding: 2em 0;">
+      <div class="container">
+        <div class="row article-content">
+          <div class="single-content">
+            
+            <!-- <p class="mb-5">
+              <img src='{%static "img/big_img_1.jpg"%}'alt="Image" class="img-fluid">
+            </p>   -->
+            <h1 class="mb-4">
+              {{a_unit.title}}
+            </h1>
+            <div class="post-meta d-flex mb-5">
+              <div class="bio-pic mr-3">
+                <img src='{%static "img/icons/user.png"%}'alt="Image" class="img-fluidid">
+              </div>
+              <div class="vcard">
+                <span class="d-block"><a href="/personal/{{u_unit.id}}">{{u_unit.name}}</a> </span>
+                <span class="date-read">{{a_unit.pubtime|date:"N j"}} 
+                  <span class="mx-1">&bullet;</span> {{a_unit.like|floatformat:"0"}} views <span class="icon-star2"></span></span>
+                  {% if user == u_unit %}
+                  <a href="edit">edit article</a>
+                  {% endif %}
+                </span>
+              </div>
+            </div>
+         
+              
+        
+            <div id="content"class="embed-responsive-item"x  >
+              {{a_unit.content|safe}}
+              
+            </div>
+              
+
+
+            <div class="pt-5">
+                    <p> Categories:
+                        {% for c in categories %}  
+                        <a href="/article/category/{{c.id}}">{{c.name}}</a>,
+                        {% endfor %}
+                        Tags: 
+                        {% for t in tags%}
+                        <a href="/article/tags/{{t.id}}">#{{t.name}}</a>,
+                        {% endfor %}
+
+                    </p>
+                 </div>
+
+                  <div class="pt-5">
+                    <div class="section-title">
+                      <h2 class="mb-5">{{comment_count}} Comments</h2>
+                    </div>
+                    <ul class="comment-list">
+                      {% for c in comments%}
+                      {%if c.parent_id == 0 %}
+                        <li class="comment">
+                          <div class="vcard bio">
+                            <img src='{%static "img/avatar-01.jpg"%}' alt="Image placeholder">
+                          </div>
+                          <div class="comment-body">
+                            <h3><a style="color:#000"href="/personal/{{c.created_by.id}}">
+                              {{c.created_by.name}} {% if c.created_by == u_unit %}(作者){%endif%}
+                            </a></h3>
+                          
+                            <div class="meta">{{c.created_at}}</div>
+                            <p>{{c.content}}</p>
+                            {% if user == u_unit %}
+                            <form action="/article/{{a_unit.id}}/"method="Post" id="reply_message{{c.id}}">
+                              {% csrf_token %}
+                              <p>
+                                <a class="reply" style="cursor: pointer;" id="{{c.id}}"onclick="reply({{c.id}});">Reply</a> 
+                                <a href="/article/{{a_unit.id}}/{{c.id}}/delete/" class="reply">Delete</a>
+                              </p>
+                            </form>
+                            
+                            
+                            {%endif%}
+                          </div>
+                        </li>
+                        {%for cc in comments%}
+                        {% if cc.parent_id == c.id %}
+                        <ul class="children">
+                          <li class="comment">
+                            <div class="vcard bio">
+                              <img src='{%static "img/avatar-01.jpg"%}' alt="Image placeholder">
+                            </div>
+                            <div class="comment-body">
+                              <h3><a style="color:#000"href="/personal/{{cc.created_by.id}}">{{cc.created_by.name}}(作者)</a></h3>
+                            
+                              <div class="meta">{{cc.created_at}}</div>
+                              <p>{{cc.content}}</p>
+                              {% if user == u_unit %}
+                              <p><a href="/article/{{a_unit.id}}/{{cc.id}}/delete/" class="reply">Delete</a></p>
+                            
+                              {%endif%}
+                            </div>
+                          </li>
+                        </ul>
+                        {%endif%}
+                        {%endfor%}
+                      {%endif%}
+
+                      {%endfor%}
+                    </ul>  
+      
+             <!-- END comment-list -->
+                    
+                    <div class="comment-form-wrap pt-5">
+                      <div class="section-title">
+                        <h2 class="mb-2">Leave a comment</h2>
+                      </div>
+
+                      <form action="/article/{{a_unit.id}}/" method="post">
+                        {% csrf_token %}
+                        <div class="form-group  border border-secondary">
+                
+                          <textarea placeholder="Balabala" name="message" id="message" cols="30" rows="10" class="form-control" style="height: 200px;"></textarea>
+                        </div>
+                        <div class="form-group">
+                          <input type="submit" value="Post Comment" class="btn btn-outline-dark">
+                        </div>
+      
+                      </form>
+                    </div>
+                  </div>
+          </div>
+
+
+         
+
+
+        </div>
+        
+      </div>
+    </div>
+
+   
+
+    {% endblock  %}

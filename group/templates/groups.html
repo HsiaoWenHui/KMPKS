@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row" style="padding-top: 50px;">
+        <div class="col-12">
+            <h3>群組總覽 | Group</h3>
+        </div>
+        {% for g in group_list %}
+        <div class="col-lg-3 card-block">
+            <div class="card" >
+                <img src='https://picsum.photos/500/230' alt="AVATAR" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">{{g.name}}</h5>
+                    <p class="card-text">{{g.intro}}</p>
+                    {% if g in userGroup_list %}
+                    <a class="btn btn-outline-dark card-button" href="/group/{{g.id}}">Enter</a>
+                    {% elif g in applyingGroup_list %}
+                    <a class="btn btn-outline-dark card-button" href="/group/{{g.id}}/cancel">取消申請</a>
+                    {% else %}
+                    <a class="btn btn-outline-dark card-button" href="/group/{{g.id}}/join">申請</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+       
+        {% endfor %}
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+{% endblock  %}
