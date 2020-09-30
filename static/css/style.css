@@ -1456,5 +1456,11 @@ h1, h2, h3, h4, h5,
 .hello{
   font-family: "B612 Mono", "MyCustomFont",monospace;
   font-weight: 20px;
-  color: #000
+  color: #000;
+  padding-top: 40px
+}
+@media screen and (max-width: 990px){
+  .hello{
+    display:none;
+  }
 }

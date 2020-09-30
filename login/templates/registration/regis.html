@@ -3,7 +3,7 @@
 
 
 <head>
-    <title>KnowledgeManagementSystem</title>
+    <title>KM=(P+K)^S</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="shortcut icon" href="#" />
@@ -37,13 +37,13 @@
                     </div>
                     <div class="content">
                         <div class="inner" >
-                            <h1>Welcome</h1>
+                            <h1 >Welcome</h1>
                             
                             <form class="login100-form validate-form" action="" method="post">
                                 {% csrf_token %}
                                 
                                 <div id="signup" >
-                                    <div class="wrap-input100 validate-input m-t-35 m-b-35" data-validate="Enter account">
+                                    {% comment %} <div class="wrap-input100 validate-input m-t-35 m-b-35" data-validate="Enter account">
                                         <input class="input100" type="text" name="username" value="" id="username" onkeydown="onlyEng()">
                                         <span class="focus-input100" data-placeholder="Enter an username"></span>
                                         <small class="txt1 note" >
@@ -52,9 +52,14 @@
                                             </ul>
                                             
                                         </small>
+                                    </div> {% endcomment %}
+                                    <div class="wrap-input100 validate-input m-t-35 m-b-35" data-validate="Enter email">
+                                        <input class="input100" type="email" name="email" value="" id="email">
+                                        <span class="focus-input100" data-placeholder="Enter en email"></span>
+                                        <div class="txt1 note">We'll never share your email with anyone else.</div>
                                     </div>
                                     <div class="wrap-input100 validate-input m-b-35" data-validate="Enter password">
-                                        <input class="input100" type="password" name="password" value="" id="password"minlength="8">
+                                        <input class="input100" type="password" name="password" value="" id="password">
                                         <span class="focus-input100" data-placeholder="Enter a password"></span>
                                         <small class="txt1 note">
                                             
@@ -64,11 +69,16 @@
                                             </ul>
                                         </small>
                                     </div>
-                                    <div class="wrap-input100 validate-input m-b-35" data-validate="Enter email">
+                                    <div class="wrap-input100 validate-input m-b-35" data-validate="Enter password">
+                                        <input class="input100" type="password" name="confirm_password" value="" id="confirm_password"onkeyup='check();'>
+                                        <span class="focus-input100" data-placeholder="Confirm your password"></span>
+                                        <small class="txt1 note" id='message'></small>
+                                    </div>
+                                    {% comment %} <div class="wrap-input100 validate-input m-b-35" data-validate="Enter email">
                                         <input class="input100" type="email" name="email" value="" id="email">
                                         <span class="focus-input100" data-placeholder="Enter en email"></span>
                                         <div class="txt1 note">We'll never share your email with anyone else.</div>
-                                    </div>
+                                    </div> {% endcomment %}
                                     
             
                                     <div class="container-login100-form-btn">
@@ -82,7 +92,7 @@
                                             </span>
             
                                             <a href="#" class="txt2" onclick="forget();return false">
-                                                Username / Password?
+                                                Email / Password?
                                             </a>
                                         </li>
             
@@ -137,12 +147,12 @@
         }
         function validateForm(form)
         {
-            if (!checkUsername(form.username)) {
+            //if (!checkUsername(form.username)) {
                
-                return false;
-            }
+            //    return false;
+            //}
             
-            else if (!checkPassword(form.password)) {
+            if (!checkPassword(form.password,form.confirm_password)) {
                
                 return false;
             }
@@ -194,8 +204,9 @@
             }
             return true
         }
-        function checkPassword(control){
-            var pwd=control.value
+        function checkPassword(control_1,control_2){
+            var pwd=control_1.value
+            var conf_pwd=control_2.value
             var code;
             if (pwd==''){
                 alert("錯誤：請輸入password ");
@@ -213,7 +224,21 @@
                 }
 
             }
+            if (pwd != conf_pwd){
+                alert("錯誤：password 兩次輸入不同");
+                return (false);
+            }
             return true
+        }
+        var check = function() {
+            if (document.getElementById('password').value ==
+                document.getElementById('confirm_password').value) {
+                document.getElementById('message').style.color = 'green';
+                document.getElementById('message').innerHTML = 'matching';
+            } else {
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').innerHTML = 'not matching';
+            }
         }
     </script>
 

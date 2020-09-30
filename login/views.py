@@ -44,20 +44,22 @@ def logout(request):
 
 def register(request):
     if request.method=="POST":
-        newUsername=request.POST['username']
+        # newUsername=request.POST['username']
         newPassword=request.POST['password']
         newEmail=request.POST['email']
+        newUsername=newEmail.split("@")[0]
+
         # newName=request.POST['name']
         try:
-            user=User.objects.get(username=newUsername)
+            user=User.objects.get(username=newEmail)
         except:
             user=None
         
         if user!=None:
-            messages.error(request, 'Usnerame had been used!!')  
+            messages.error(request, 'Email had been used!!')  
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         else:
-            newUser=User.objects.create_user(newUsername,newEmail,newPassword)
+            newUser=User.objects.create_user(newEmail,newEmail,newPassword)
             newUser.save()
             auth.login(request,newUser)
             unit=UserProfile.objects.create(user=newUser,name=newUsername,intro="")

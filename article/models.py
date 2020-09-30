@@ -30,8 +30,8 @@ class article(models.Model):
 
 
 class comment(models.Model):
-    post=models.ForeignKey("article",on_delete=models.DO_NOTHING)
-    created_by=models.ForeignKey("personal.UserProfile",on_delete=models.DO_NOTHING,null=True)
+    post=models.ForeignKey("article",on_delete=models.CASCADE)
+    created_by=models.ForeignKey("personal.UserProfile",on_delete=models.CASCADE,null=True)
     parent_id=models.IntegerField(default=0)
     content=models.TextField(null= False)
     created_at=models.DateTimeField(auto_now= True)
