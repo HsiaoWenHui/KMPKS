@@ -3,8 +3,26 @@
 {% block content %}
 
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+<link href='{%static "css/Simditor/simditor.css"%}' rel="stylesheet">
 <script type="text/javascript" src='{%static "js/jquery-3.3.1.min.js"%}'></script>
 <script>
+//文字編輯器
+    $(function() {
+      
+      var editor = new Simditor({
+          textarea: $("#id_content"),
+          placeholder: "在此撰寫公告",
+          toolbar: [ 'title', 'bold', 'italic', 'underline', 'strikethrough', 'color','mark', '|', 'ol', 'ul', 'blockquote','hr','|','indent','outdent','alignment', 'code', 'table', 'link','image'],
+          pasteImage:true,
+          
+          upload: {
+              url: '/simditor/upload/',
+              fileKey: 'upload',
+              image_size: 1024 * 1024 * 4   
+          },
+        });
+        
+    });
   $(document).ready(function () {
     $('#tags').tagInput({
       labelClass: "badge badge-default"
@@ -59,8 +77,20 @@
             <input type="text" class="form-control" name="newTitle" id="newTitle" placeholder="" value="{{name}}">
           </div>
           <div class="form-group">
+            <label for="exampleFormControlSelect1">隱私設定</label>
+            <select class="form-control" id="newPrivate" name="newPrivate">
+              <option value=1 {% if private == 1 %}selected="selected"{% endif %}>公開(所有人可進群組觀看內容)</option>
+              <option value=0 {% if private == 0 %}selected="selected"{% endif %}>非公開(須為成員才能進入群組)</option>
+            </select>
+        </div>
+          <div class="form-group">
             <label>群組介紹</label>
             <textarea class="form-control form-control-textarea" id="newIntro"name="newIntro">{{intro}}</textarea>
+          </div>
+          <div class="form-group">
+            <label>公告</label>
+            <textarea id="id_content" placeholder="Balabala" name="newContent" autofocus>{{announcement}}</textarea>
+
           </div>
           <div class="row">
             <div class="col-6 text-center">

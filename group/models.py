@@ -8,6 +8,8 @@ class group(models.Model):
     intro=models.TextField(null= False)
     owner=models.ForeignKey("personal.UserProfile",on_delete=models.CASCADE) 
     createTime=models.DateTimeField(auto_now_add= True)
+    announcement=models.TextField(null=True)
+    privacy=models.IntegerField(default=0)#1:公開 #0:非公開
     def __str__(self):
         return 'Group: '+self.name
 

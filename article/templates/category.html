@@ -11,16 +11,29 @@
     <div class="row">
         {% for i in cate_articles%}
         <div class="col-lg-3 col-sm-4 col-12 card-block">
-          <div class="card">
-            <img src="https://picsum.photos/500/230" alt="AVATAR" class="card-img-top">
-            <div class="card-body">
-                <h5 class="card-title">{{i.title}}</h5>
-                <span class="card-owner">by <a href="/personal/{{i.author.id}}">{{i.author.name}}</a> </span>
-                <p class="JQellipsis card-text " >{{i.content}}</p>
-                <a href="/article/{{i.id}}" class="btn btn-outline-dark card-button">more</a>
-
-            </div>
-          </div>
+          <div class="card ">
+                            <img src="https://picsum.photos/500/230" alt="AVATAR" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">{{i.title}}</h5>
+                                <span class="card-owner">by <a href="/personal/{{i.author.id}}">{{i.author.name}}</a> </span>
+                                <!-- <p class="card-text">{{article.content|safe}}</p> -->
+                                <p class="card-owner"> Categories:
+                                    {% for c in i.categorys.all %} 
+                                    
+                                    <a href="/article/category/{{c.id}}">{{c.name}}</a>,
+                                    
+                                    {% endfor %}
+                                </p>
+                                <p class="card-owner">
+                                    Tags: 
+                                    {% for t in i.tags.all%}
+                                    <a href="/article/tags/{{t.id}}">#{{t.name}}</a>,
+                                    {% endfor %}
+            
+                                </p>
+                                <a class="btn btn-outline-dark card-button" href="/article/{{i.id}}">more</a>
+                            </div>
+                        </div>
         </div>
         {%endfor%}
 

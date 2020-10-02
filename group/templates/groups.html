@@ -13,7 +13,9 @@
                 <div class="card-body">
                     <h5 class="card-title">{{g.name}}</h5>
                     <p class="card-text">{{g.intro}}</p>
-                    {% if g in userGroup_list %}
+                    {% if g.privacy == 1 %}
+                    <a class="btn btn-outline-dark card-button" href="/group/{{g.id}}">Enter</a>
+                    {% elif g in userGroup_list %}
                     <a class="btn btn-outline-dark card-button" href="/group/{{g.id}}">Enter</a>
                     {% elif g in applyingGroup_list %}
                     <a class="btn btn-outline-dark card-button" href="/group/{{g.id}}/cancel">取消申請</a>

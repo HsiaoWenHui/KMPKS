@@ -33,9 +33,11 @@ def addGroup(request):
         if request.method =="POST":
             nTitle=request.POST['newTitle']
             nIntro=request.POST['newIntro']
+            nPrivate=request.POST['newPrivate']
+            nAnnounce=request.POST['newContent']
             nOwner=user
 
-            g_unit=group.objects.create(name=nTitle,intro=nIntro,owner=nOwner)
+            g_unit=group.objects.create(name=nTitle,intro=nIntro,owner=nOwner,privacy=nPrivate,announcement=nAnnounce)
             g_unit.save()
             m_unit=member.objects.create(groupID=g_unit,memberID=user,state=0)
             m_unit.save()
@@ -57,16 +59,31 @@ def groupIndex(request,group_id):
     msg=message.objects.filter(group=g_unit)
     
     if request.user.is_authenticated:
-        member_list=member.objects.filter(groupID=g_unit,state=0)
-        a_member=len(member_list)
-        a_article=len(article_list)
         
-        for m in member_list:
-            if m.memberID == user:
-                return render(request, 'group.html',locals())
-            else:
-                continue
-        return HttpResponseRedirect('/group')
+        if g_unit.privacy == 1:#在公開群組的情況下，使用者為該群組成員則state=0 否則為1
+            member_list=member.objects.filter(groupID=g_unit) 
+            a_member=len(member_list)
+            a_article=len(article_list)
+            
+            for m in member_list:
+                if m.memberID == user and m.state == 0: #如果使用者在成員列表中 且 已加入 則 state=0
+                    state=0
+                elif m.memberID == user and m.state == 1:#如果使用者在成員列表中 且 申請中 則 state=1
+                    state=1
+                else: #如果都沒有在列表中 則代表尚未申請加入群組 則 state=2
+                    state=2
+            return render(request, 'group.html',locals())
+        else:
+            member_list=member.objects.filter(groupID=g_unit,state=0) #0:已加入 1:申請中
+            a_member=len(member_list)
+            a_article=len(article_list)
+            
+            for m in member_list:
+                if m.memberID == user:
+                    return render(request, 'group.html',locals())
+                else:
+                    continue
+            return HttpResponseRedirect('/group')
     else:
         return HttpResponseRedirect('/accounts/login')
 @csrf_exempt
@@ -87,13 +104,17 @@ def editGroup(request,index):
             if  request.method=="POST":
                 e_group.name=request.POST['newTitle']
                 e_group.intro=request.POST['newIntro']
+                e_group.privacy=request.POST['newPrivate']
+                
+                e_group.announcement=request.POST['newContent']
                 e_group.save()
 
                 return HttpResponseRedirect('/group/'+str(e_group.id))
             else:
                 name=e_group.name
                 intro=e_group.intro
-                
+                private=e_group.privacy
+                announcement=e_group.announcement
                 return render(request, 'edit_group.html',locals())
         else:
             return render(request, '/home',locals())
@@ -137,7 +158,7 @@ def cancelGroup(request,index):
     if request.user.is_authenticated:
         user=UserProfile.objects.get(user=request.user)
         apply_group=group.objects.get(id=index)
-        apply_member=member.objects.filter(groupID=apply_group,memberID=user)
+        apply_member=member.objects.get(groupID=apply_group,memberID=user)
         if not apply_member:
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         else:
