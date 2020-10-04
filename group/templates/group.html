@@ -49,7 +49,7 @@
                     {% for a in article_list %}
                     <div class="col-md-6">
                         <div class="post-entry-2 d-flex bg-light">
-                            <div class="thumbnail" style="background-image: url('/static/img/img_v_1.jpg')"></div>
+                            <div class="thumbnail" style="background-image: url('{{a.img}}'')"></div>
                             <div class="contents">
                                 <h2><a href="/article/{{a.articleID.id}}/">{{a.articleID.title}}</a></h2>
                                 <div class="post-meta">

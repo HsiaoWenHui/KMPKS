@@ -1348,7 +1348,7 @@ h1, h2, h3, h4, h5,
       visibility:hidden
     }
     .card-block{
-      padding: 15px 5px;
+      padding: 15px 10px 15px 10px;
     }
     .card-img-top{
       height: 55%;
@@ -1455,9 +1455,10 @@ h1, h2, h3, h4, h5,
 
 .hello{
   font-family: "B612 Mono", "MyCustomFont",monospace;
-  font-weight: 20px;
+  font-weight: 21px;
   color: #000;
-  padding-top: 40px
+  padding:7px ;
+  margin:0
 }
 @media screen and (max-width: 990px){
   .hello{

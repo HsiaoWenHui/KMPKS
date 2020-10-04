@@ -22,9 +22,9 @@
                         </span>
                     </div>
                     {% for article in article_list %}
-                    <div class="col-lg-4 col-md-6 card-block">
+                    <div class="col-lg-4 col-sm-4 col-6 card-block">
                         <div class="card ">
-                            <img src="https://picsum.photos/500/230" alt="AVATAR" class="card-img-top">
+                            <img src='{{article.img}}' alt="AVATAR" class="card-img-top">
                             <div class="card-body">
                                 <h5 class="card-title">{{article.title}}</h5>
                                 <span class="card-owner">by <a href="/personal/{{article.author.id}}">{{article.author.name}}</a> </span>
@@ -48,9 +48,9 @@
                         </div>
                     </div>
                     {% empty %}
-                    <div class="col-lg-4 card-block">
+                    <div class="col-lg-4 col-sm-4 col-6 card-block">
                         <div class="card">
-                            <img src="https://picsum.photos/500/230" alt="AVATAR" class="card-img-top">
+                            <img src="/static/img/default0.jpg/" alt="AVATAR" class="card-img-top">
                             <div class="card-body">
                                 <h5 class="card-title">尚無文章</h5>
                                 <p class="card-text">目前您還沒有自己的文章哦</p>
@@ -65,9 +65,9 @@
                         </span>
                     </div>
                     {% for g in member_list %}
-                    <div class="col-lg-4 card-block">
+                    <div class="col-lg-4 col-sm-4 col-6 card-block">
                         <div class="card ">
-                            <img src="https://picsum.photos/500/230" alt="AVATAR" class="card-img-top">
+                            <img src="/static/img/default0.jpg/" alt="AVATAR" class="card-img-top">
                             <div class="card-body">
                                 <h5 class="card-title">{{g.groupID.name}}</h5>
                                 
@@ -77,9 +77,9 @@
                         </div>
                     </div>
                     {% empty %}
-                    <div class="col-lg-4 card-block">
+                    <div class="col-lg-4 col-sm-4 col-6 card-block">
                         <div class="card">
-                            <img src="https://picsum.photos/500/230" alt="AVATAR" class="card-img-top">
+                            <img src="/static/img/default0.jpg/" alt="AVATAR" class="card-img-top">
                             <div class="card-body">
                                 <h5 class="card-title">尚無群組</h5>
                                 <p class="card-text">目前您還沒有自己的群組哦</p>

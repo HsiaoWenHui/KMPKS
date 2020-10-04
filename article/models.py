@@ -23,7 +23,7 @@ class article(models.Model):
     like=models.FloatField(default=0)
     tags = models.ManyToManyField(tag, blank=True)
     categorys = models.ManyToManyField(category)
-    
+    img=models.CharField(default='/static/img/default0.jpg/',max_length=255)
     def __str__(self):
         return 'Article:'+ self.title+' like: '+str(self.like)
 

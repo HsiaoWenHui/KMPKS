@@ -18,7 +18,7 @@
   <link href='{%static "css/jquery.fancybox.min.css"%}'rel="stylesheet">
   
   <link href='{%static "css/bootstrap-datepicker.css"%}'rel="stylesheet">
-  
+  <link href='{%static "css/search.css"%}'rel="stylesheet">
   <link href='{%static "css/aos.css"%}'rel="stylesheet">
   <link href='{%static "css/jquery.mb.YTPlayer.min.css"%}'media="all" rel="stylesheet" type="text/css">
  
@@ -26,17 +26,33 @@
 
   <link href='{%static "css/style.css"%}'rel="stylesheet">
   <link href='{%static "css/css"%}'rel="stylesheet">
-  <!-- <link href='{%static "css/blog.css"%}'rel="stylesheet"> -->
   <link href='{%static "fonts/icomoon/style.css"%}' rel="stylesheet">
+  
+    <link href='{%static "css/login/main.css"%}' rel="stylesheet">
   {% block mycss %} {% endblock mycss %}
-  
-  
-  <!-- <link href='{%static "fonts/flaticon/font/flaticon.css"%}' rel="stylesheet"> -->
+<script>
+      function openNav() {
+        document.getElementById("myNav").style.height = "100%";
+      }
 
-<!--   
-  <link href='{%static "css/tagInput.css"%}' rel="stylesheet">
-  <link href='{%static "css/Simditor/simditor.css"%}' rel="stylesheet"> -->
+      /* Close */
+      function closeNav() {
+        document.getElementById("myNav").style.height = "0%";
+      }
+{% comment %} 
+      $('#tab_default_2').click(function() {
+          $('#tab_default_1').removeClass('active');
+          $('#tab_default_1').removeClass('show');
+          $('#tab_default_2').addClass('active');
+      }); 
+      $('#tab_default_1').click(function() {
+          $('#tab_default_2').removeClass('show active');
+          $('#tab_default_2').removeClass('show');
+          $('#tab_default_1').addClass('active');
+      });  {% endcomment %}
 
+
+    </script>
 </head>
 
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -59,7 +75,7 @@
       <div class="container">
         <div class="row align-items-center">
           <div class="d-flex col-12">
-            <a href="/" class="col-xs-6 col-md-4 col-sm-4 col-lg-6 site-logo">
+            <a href="/" class="col-6 site-logo">
               <picture>
                   <source srcset="{%static "img/logo.png" %}" media="(min-width: 992px)">
                   <source srcset='{%static "img/logoM.png" %}' media="(min-width: 358px)">
@@ -67,12 +83,98 @@
                   
               </picture>
             </a>
-
-            <a href="#" class="col-xs-6 col-md-4 col-sm-4 col-lg-6 ml-auto d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black text-right"style="padding-top:10px;"><span
-                class="icon-menu h3"></span></a>
-            <div class="hello col-md-6 col-sm-4 text-right " style="font-size: 20px;">Hi, {{user.name}}</div>
+            <div id="myNav" class="overlay">
+              <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+              <div class="overlay-content">
+              <h1 style="color:white;">Search</h1>
+                    <div class="tabbable-panel">
+                      <div class="tabbable-line">
+                        <ul class="nav nav-tabs ">
+                          <li class="active" >
+                            <a href="#tab_default_1" data-toggle="tab">
+                            文章搜尋 </a>
+                          </li>
+                          <li>
+                            <a href="#tab_default_2" data-toggle="tab" >
+                            群組搜尋 </a>
+                          </li>
+                          
+                        </ul>
+                        <div class="tab-content">
+                          <div class="tab-pane fade in active" id="tab_default_1" >
+                            <form class="login100-form validate-form row" action="#" method="post">
+                                  {% csrf_token %}
+                                  <div class="wrap-input100 validate-input col-10" >
+                                      <input class="input100 " type="text" name="username" value=""id="username">
+                                      <span class="focus-input100" data-placeholder="請輸入關鍵字">
+                                      </span>
+                                  </div>
+                                  <div class="col-2" style="padding:20px 0 0 0">
+                                  <input type="image"src="{%static "img/search_1.png" %}" alt="Submit" >
+                                  </div>
+                            </form>
+                            <div class="hot">
+                              <h3 class="hot-title">熱門文章關鍵字</h3>
+                              <div class="row">
+                                <div class="hot-tag ">期中考</div>
+                                <div class="hot-tag ">期中考</div>
+                                <div class="hot-tag ">期中考</div>
+                                <div class="hot-tag ">期中考</div>
+                                <div class="hot-tag ">期中考</div>
+                                <div class="hot-tag ">期中考</div>
+                                <div class="hot-tag ">期中考</div>
+                                <div class="hot-tag">期中考</div>
+                                <div class="hot-tag">期中考</div>
+                              </div>
+                              
+                            </div>
+                          </div>
+                          <div class="tab-pane fade" id="tab_default_2">
+                            <form class="login100-form validate-form row" action="#" method="post">
+                                  {% csrf_token %}
+                                  <div class="wrap-input100 validate-input col-10" >
+                                      <input class="input100 " type="text" name="username" value=""id="username">
+                                      <span class="focus-input100" data-placeholder="請輸入關鍵字">
+                                      </span>
+                                  </div>
+                                  <div class="col-2" style="padding:20px 0 0 0">
+                                  <input type="image"src="{%static "img/search_1.png" %}" alt="Submit" >
+                                  </div>
+                            </form>
+                            <div class="hot">
+                              <h3 class="hot-title">熱門文章關鍵字</h3>
+                              <div class="row">
+                                <div class="hot-tag ">期中考</div>
+                                <div class="hot-tag ">期中考</div>
+                                <div class="hot-tag ">期中考</div>
+                                <div class="hot-tag ">期中考</div>
+                                <div class="hot-tag ">期中考</div>
+                                <div class="hot-tag ">期中考</div>
+                                <div class="hot-tag ">期中考</div>
+                                <div class="hot-tag">期中考</div>
+                                <div class="hot-tag">期中考</div>
+                              </div>
+                              
+                            </div>
+                          </div>
+                          
+                            
+                        </div>
+                      </div>
+                    </div>
+              </div>
+            </div>
+            <div class="col-6 row text-right justify-content-end">
+              
+              <div class="hello" style="font-size: 23px;"> Hi, {{user.name}}</div>
+              <span class="text-right"style="font-size:30px;cursor:pointer " onclick="openNav()"><img src="{%static "img/search.png" %}" style="margin-bottom:8px;"></span>
+              <a href="#" class="  d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black text-right"style="padding:8px;"><span
+                  class="icon-menu h3"></span></a>
+              
+            </div>
+            
+            
           </div>
-          
          
       </div>
     </div>
@@ -204,6 +306,8 @@
     <script type="text/javascript" src='{%static "js/Simditor/uploader.js"%}'></script>
     <script type="text/javascript" src='{%static "js/Simditor/simditor.js"%}'></script>
     <script type="text/javascript" src='{%static "js/Simditor/simditor-mark-master/lib/simditor-mark.js"%}'></script>
+    
+    <script src='{%static "js/login/main.js"%}'></script>
   </body>
   
   </html>

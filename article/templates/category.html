@@ -10,9 +10,9 @@
     </div>
     <div class="row">
         {% for i in cate_articles%}
-        <div class="col-lg-3 col-sm-4 col-12 card-block">
+        <div class="col-lg-3 col-sm-4 col-6 card-block">
           <div class="card ">
-                            <img src="https://picsum.photos/500/230" alt="AVATAR" class="card-img-top">
+                            <img src="{{i.img}}" alt="AVATAR" class="card-img-top">
                             <div class="card-body">
                                 <h5 class="card-title">{{i.title}}</h5>
                                 <span class="card-owner">by <a href="/personal/{{i.author.id}}">{{i.author.name}}</a> </span>

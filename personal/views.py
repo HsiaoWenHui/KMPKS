@@ -4,23 +4,9 @@ from personal.models import UserProfile
 from article.models import article,category
 from django.contrib import auth
 from group.models import group,articleGroup,member
-
+import random
+from bs4 import BeautifulSoup
 # Create your views here.
-def personalPage(request):
-    if request.user.is_authenticated:
-        user=UserProfile.objects.get(user=request.user)
-        
-        name=user.name
-        intro=user.intro
-
-        article_list=article.objects.filter(author=user.id)      
-        member_list=member.objects.filter(memberID=user)
-
-
-        return render(request, 'personal.html',locals())
-    else:
-        return HttpResponseRedirect('/accounts/login')
-
 def personalIndex(request,index):
     if request.user.is_authenticated:
         owner=UserProfile.objects.get(id=index)
@@ -56,3 +42,8 @@ def editProfile(request):
             return render(request, 'editProfile.html',locals())
     else:
         return HttpResponseRedirect('/accounts/login')
+
+
+
+
+

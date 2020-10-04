@@ -45,16 +45,20 @@ def home(request):
 
 def getImg(img):
     img_list=[]
-    for u in img:
-        if 'img' in u.content:
-            soup = BeautifulSoup(u.content, 'html.parser')
-            img_tags = soup.find('img')
-            for i in soup.select('img'):
-                i.extract()
-            img_list.append(img_tags.get('src'))
-        else:
-            index=random.randint(1,3)
-            img_list.append('/static/img/default'+str(index)+'.jpg/')
+    if not img:
+        index=random.randint(1,3)
+        img_list.append('/static/img/default'+str(index)+'.jpg/')
+    else:
+        for u in img:
+            if 'img' in u.content:
+                soup = BeautifulSoup(u.content, 'html.parser')
+                img_tags = soup.find('img')
+                for i in soup.select('img'):
+                    i.extract()
+                img_list.append(img_tags.get('src'))
+            else:
+                index=random.randint(1,3)
+                img_list.append('/static/img/default'+str(index)+'.jpg/')
 
     return img_list
 

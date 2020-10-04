@@ -13,6 +13,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 import json
 from django.core.exceptions import PermissionDenied
+
+import random
+from bs4 import BeautifulSoup
 # from django.utils.module_loading import import_string
 # from markdownx.settings import MARKDOWNX_MARKDOWNIFY_FUNCTION
 # Create your views here.
@@ -91,7 +94,8 @@ def addArticle(request):
                 nCategory=request.POST['newCategory']
                 oldCategory_list=request.POST.getlist('oldCategory',None)
                 nAuthor=user
-                unit=article.objects.create(title=nTitle,private=nPrivate,content=nContent,author=nAuthor)
+                nimg=getImg(request.POST['newContent'])
+                unit=article.objects.create(title=nTitle,private=nPrivate,content=nContent,author=nAuthor,img=nimg)
                 unit.save()
 
                 addTags(unit.id,nTags)
@@ -129,6 +133,7 @@ def editArticle(request,index):
                 e_article.content=request.POST['newContent']
                 editTags(e_article,request.POST['newTags'])
                 editCategory(e_article,request.POST['newCategory'],request.POST.getlist('oldCategory',None))
+                e_article.img=getImg(request.POST['newContent'])
                 e_article.save()
 
                 newGroup_list=request.POST.getlist('checkboxs',None)#編輯過後的所有群組ID
@@ -296,3 +301,24 @@ def categories(request,index):
     cate_articles=article.objects.filter(categorys=cate_unit)
 
     return render(request, 'category.html',locals())
+
+
+
+def getImg(img):
+    img_list=[]
+    if not img:
+        index=random.randint(1,3)
+        img_list.append('/static/img/default'+str(index)+'.jpg/')
+    else:
+        
+        if 'img' in img:
+            soup = BeautifulSoup(img, 'html.parser')
+            img_tags = soup.find('img')
+            for i in soup.select('img'):
+                i.extract()
+            img_list.append(img_tags.get('src'))
+        else:
+            index=random.randint(1,3)
+            img_list.append('/static/img/default'+str(index)+'.jpg/')
+
+    return img_list[0]
