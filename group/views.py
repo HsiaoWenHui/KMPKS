@@ -4,7 +4,7 @@ from group.models import group,articleGroup,articleGroup_category,group_category
 from article.models import article
 from django.http import HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt 
-
+from django.db.models import Q
 # Create your views here.
 def allGroup(request):
     group_list=group.objects.all()
@@ -229,6 +229,7 @@ def addCategory(request,index):
 
 @csrf_exempt
 def updateCategory(request,index):
+    
     if request.user.is_authenticated:
         #取得群組的所有分類
         g_unit=group.objects.get(id=index)
@@ -296,6 +297,7 @@ def delCategory(request,groupIndex,categoryIndex):
 
 
 def categories(request,groupID,categoryID):
+    user=UserProfile.objects.get(user=request.user)
     cate_unit=group_category.objects.get(id=categoryID)
     cate_articles_rel=articleGroup_category.objects.filter(categoryID=cate_unit)
     cate_articles=[]
@@ -334,3 +336,13 @@ def chat(request,group_id):
     name=user.name
     g_unit=group.objects.get(id=group_id)
     return render(request, 'chat.html',locals())
+
+def search(request):
+    user=UserProfile.objects.get(user=request.user)
+    if request.method =="POST":
+        keyword=request.POST["group_keyword"]
+        search_result=group.objects.filter(Q(name__contains=keyword)|Q(intro__contains=keyword))
+        print(search_result[0].name)
+        return render(request, 'group_search.html',locals())
+    else:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

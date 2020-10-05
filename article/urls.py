@@ -14,4 +14,5 @@ urlpatterns = [
   url(r'^tags/(\d+)/$',views.tags),
   url(r'^category/(\d+)/$',views.categories),
   url(r'^(\d+)/(\d+)/delete/$',views.del_comment),
+  url(r'^search/$',views.search),
 ]

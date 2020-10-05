@@ -22,7 +22,7 @@
                         </span>
                     </div>
                     {% for article in article_list %}
-                    <div class="col-lg-4 col-sm-4 col-6 card-block">
+                    <div class="col-lg-4 col-sm-4 col-12 card-block">
                         <div class="card ">
                             <img src='{{article.img}}' alt="AVATAR" class="card-img-top">
                             <div class="card-body">
@@ -43,12 +43,12 @@
                                     {% endfor %}
             
                                 </p>
-                                <a class="btn btn-outline-dark card-button" href="/article/{{article.id}}">more</a>
+                                <a class="btn btn-outline-dark card-button " href="/article/{{article.id}}">more</a>
                             </div>
                         </div>
                     </div>
                     {% empty %}
-                    <div class="col-lg-4 col-sm-4 col-6 card-block">
+                    <div class="col-lg-4 col-sm-4 col-12 card-block">
                         <div class="card">
                             <img src="/static/img/default0.jpg/" alt="AVATAR" class="card-img-top">
                             <div class="card-body">
@@ -65,19 +65,19 @@
                         </span>
                     </div>
                     {% for g in member_list %}
-                    <div class="col-lg-4 col-sm-4 col-6 card-block">
+                    <div class="col-lg-4 col-sm-4 col-12 card-block">
                         <div class="card ">
                             <img src="/static/img/default0.jpg/" alt="AVATAR" class="card-img-top">
                             <div class="card-body">
                                 <h5 class="card-title">{{g.groupID.name}}</h5>
                                 
                                 <p class="card-text">{{g.groupID.intro}}</p>
-                                <a class="btn btn-outline-dark card-button" href="/group/{{g.groupID.id}}">more</a>
+                                <a class="btn btn-outline-dark card-button " href="/group/{{g.groupID.id}}">more</a>
                             </div>
                         </div>
                     </div>
                     {% empty %}
-                    <div class="col-lg-4 col-sm-4 col-6 card-block">
+                    <div class="col-lg-4 col-sm-4 col-12 card-block">
                         <div class="card">
                             <img src="/static/img/default0.jpg/" alt="AVATAR" class="card-img-top">
                             <div class="card-body">

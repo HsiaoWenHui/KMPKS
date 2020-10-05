@@ -13,7 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 import json
 from django.core.exceptions import PermissionDenied
-
+from django.db.models import Q
 import random
 from bs4 import BeautifulSoup
 # from django.utils.module_loading import import_string
@@ -291,12 +291,14 @@ def editCategory(a,c,o):
     a.save()
     
 def tags(request,index):
+    user=UserProfile.objects.get(user=request.user)
     tag_unit=tag.objects.get(id=index)
     tag_articles=article.objects.filter(tags=tag_unit)
 
     return render(request, 'tags.html',locals())
 
 def categories(request,index):
+    user=UserProfile.objects.get(user=request.user)
     cate_unit=category.objects.get(id=index)
     cate_articles=article.objects.filter(categorys=cate_unit)
 
@@ -322,3 +324,14 @@ def getImg(img):
             img_list.append('/static/img/default'+str(index)+'.jpg/')
 
     return img_list[0]
+
+def search(request):
+    user=UserProfile.objects.get(user=request.user)
+    if request.method =="POST":
+        keyword=request.POST["article_keyword"]
+        tag_keyword=tag.objects.get(name=keyword)
+        search_result=article.objects.filter(Q(tags=tag_keyword)|Q(title__contains=keyword)|Q(content__contains=keyword))
+        
+        return render(request, 'search.html',locals())
+    else:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

@@ -39,20 +39,9 @@
       function closeNav() {
         document.getElementById("myNav").style.height = "0%";
       }
-{% comment %} 
-      $('#tab_default_2').click(function() {
-          $('#tab_default_1').removeClass('active');
-          $('#tab_default_1').removeClass('show');
-          $('#tab_default_2').addClass('active');
-      }); 
-      $('#tab_default_1').click(function() {
-          $('#tab_default_2').removeClass('show active');
-          $('#tab_default_2').removeClass('show');
-          $('#tab_default_1').addClass('active');
-      });  {% endcomment %}
-
-
-    </script>
+      
+</script>
+    
 </head>
 
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -86,85 +75,74 @@
             <div id="myNav" class="overlay">
               <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
               <div class="overlay-content">
-              <h1 style="color:white;">Search</h1>
+                    <h1 style="color:white;">Search</h1>
                     <div class="tabbable-panel">
                       <div class="tabbable-line">
-                        <ul class="nav nav-tabs ">
-                          <li class="active" >
-                            <a href="#tab_default_1" data-toggle="tab">
-                            文章搜尋 </a>
-                          </li>
-                          <li>
-                            <a href="#tab_default_2" data-toggle="tab" >
-                            群組搜尋 </a>
-                          </li>
-                          
-                        </ul>
+                       
+                          <div class="nav nav-tabs "id="tabs">
+                            <a class="overlay-a active"href="#tab_default_1" data-toggle="tab" role="tab" aria-controls="tab_default_1" aria-selected="true">文章搜尋 </a>
+                            <a class="overlay-a"href="#tab_default_2" data-toggle="tab"role="tab" aria-controls="tab_default_2" aria-selected="false" >群組搜尋 </a> 
+                          </div>
+                       
+                        
                         <div class="tab-content">
-                          <div class="tab-pane fade in active" id="tab_default_1" >
-                            <form class="login100-form validate-form row" action="#" method="post">
+                          <div class="tab-pane show active" id="tab_default_1" >
+                            <form class="login100-form  row" action="/article/search/" method="post"id="article_form">
                                   {% csrf_token %}
-                                  <div class="wrap-input100 validate-input col-10" >
-                                      <input class="input100 " type="text" name="username" value=""id="username">
+                                  <div class="wrap-input100  col-10" >
+                                      <input class="input100 " type="text" name="article_keyword" value=""id="article_keyword">
                                       <span class="focus-input100" data-placeholder="請輸入關鍵字">
                                       </span>
                                   </div>
                                   <div class="col-2" style="padding:20px 0 0 0">
-                                  <input type="image"src="{%static "img/search_1.png" %}" alt="Submit" >
+                                    <input type="image" src="{%static "img/search_1.png" %}" id="article_search" alt="Submit"name="article_search" />
+                                 
                                   </div>
                             </form>
                             <div class="hot">
-                              <h3 class="hot-title">熱門文章關鍵字</h3>
+                              <h3 class="hot-title">熱門文章標籤</h3>
                               <div class="row">
-                                <div class="hot-tag ">期中考</div>
-                                <div class="hot-tag ">期中考</div>
-                                <div class="hot-tag ">期中考</div>
-                                <div class="hot-tag ">期中考</div>
-                                <div class="hot-tag ">期中考</div>
-                                <div class="hot-tag ">期中考</div>
-                                <div class="hot-tag ">期中考</div>
-                                <div class="hot-tag">期中考</div>
-                                <div class="hot-tag">期中考</div>
+                                {% for i in hot_tag %}
+                                <a class="hot-tag " href="/article/tags/{{i.id}}">{{i.name}}</a>
+                                {% endfor %}
                               </div>
                               
                             </div>
                           </div>
-                          <div class="tab-pane fade" id="tab_default_2">
-                            <form class="login100-form validate-form row" action="#" method="post">
+                          <div class="tab-pane " id="tab_default_2">
+                            <form class="login100-form row" action="/group/search/" method="post"id="group_form">
                                   {% csrf_token %}
                                   <div class="wrap-input100 validate-input col-10" >
-                                      <input class="input100 " type="text" name="username" value=""id="username">
+                                      <input class="input100 " type="text" name="group_keyword" value=""id="group_keyword">
                                       <span class="focus-input100" data-placeholder="請輸入關鍵字">
                                       </span>
                                   </div>
                                   <div class="col-2" style="padding:20px 0 0 0">
-                                  <input type="image"src="{%static "img/search_1.png" %}" alt="Submit" >
+                                  <input type="image"src="{%static "img/search_1.png" %}" id="group_search"alt="Submit"name="group_search" >
                                   </div>
                             </form>
                             <div class="hot">
-                              <h3 class="hot-title">熱門文章關鍵字</h3>
+                              <h3 class="hot-title">熱門群組</h3>
                               <div class="row">
-                                <div class="hot-tag ">期中考</div>
-                                <div class="hot-tag ">期中考</div>
-                                <div class="hot-tag ">期中考</div>
-                                <div class="hot-tag ">期中考</div>
-                                <div class="hot-tag ">期中考</div>
-                                <div class="hot-tag ">期中考</div>
-                                <div class="hot-tag ">期中考</div>
-                                <div class="hot-tag">期中考</div>
-                                <div class="hot-tag">期中考</div>
+                                <div class="hot-tag ">群組</div>
+                                <div class="hot-tag ">群組</div>
+                                <div class="hot-tag ">群組</div>
+                                <div class="hot-tag ">群組</div>
+                                <div class="hot-tag ">群組</div>
+                                <div class="hot-tag ">群組</div>
+                                <div class="hot-tag ">群組</div>
+                                <div class="hot-tag">群組</div>
+                                <div class="hot-tag">群組</div>
                               </div>
                               
                             </div>
                           </div>
-                          
-                            
                         </div>
                       </div>
                     </div>
               </div>
             </div>
-            <div class="col-6 row text-right justify-content-end">
+            <div class="col-6 row text-right justify-content-end title-right">
               
               <div class="hello" style="font-size: 23px;"> Hi, {{user.name}}</div>
               <span class="text-right"style="font-size:30px;cursor:pointer " onclick="openNav()"><img src="{%static "img/search.png" %}" style="margin-bottom:8px;"></span>
@@ -308,6 +286,7 @@
     <script type="text/javascript" src='{%static "js/Simditor/simditor-mark-master/lib/simditor-mark.js"%}'></script>
     
     <script src='{%static "js/login/main.js"%}'></script>
+    
   </body>
   
   </html>

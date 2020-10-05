@@ -12,7 +12,7 @@
             <div class="col-lg-8 section-title">
                 <div class="row">
                     <h1 class="col-md-9">Group</h1>
-                    <h1 class="col-md-9">{{g_unit.name}}</h1>
+                    <h1 class="col-md-9  col-12">{{g_unit.name}}</h1>
                     {% if user == g_unit.owner%}
                         <div class="col-md-3">
                             <a class="btn btn-outline-dark card-button"  href="edit">Edit Group</a>
@@ -30,9 +30,10 @@
                     {% endif %}
                             
                 </div> 
-                <h5 class="contents">{{g_unit.intro}}</h5>
+                <h5 class="contents group-section">{{g_unit.intro}}</h5>
+                <br>
                 <div class="row contents">
-                    <div class="col-12">
+                    <div class="col-12 group-section">
                         <span class="caption section-title">
                             <h2>Announcement</h2>
                         </span>
@@ -41,7 +42,8 @@
                         
                         </div>
                     </div>
-                    <div class="col-12">
+                    <br><br>
+                    <div class="col-12 group-section">
                         <span class="caption section-title">
                             <h2>Articles</h2>
                         </span>
