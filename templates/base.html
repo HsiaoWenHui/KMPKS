@@ -7,28 +7,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="{%static "img/logo2.png"%}" />
-  <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-  <!-- <link href="https://fonts.googleapis.com/css?family=B612+Mono|Cabin:400,700&display=swap" rel="stylesheet"> -->
 
   <link href='{%static "css/bootstrap.min.css"%}' rel="stylesheet">
-  <link href='{%static "css/jquery-ui.css"%}'rel="stylesheet">
-  <link href='{%static "css/owl.carousel.min.css"%}'rel="stylesheet">
-  <link href='{%static "css/owl.theme.default.min.css"%}' rel="stylesheet">
-  <link href='{%static "css/jquery.fancybox.min.css"%}'rel="stylesheet">
+  {% comment %} <link href='{%static "css/jquery-ui.css"%}'rel="stylesheet"> {% endcomment %}
+  {% comment %} <link href='{%static "css/jquery.fancybox.min.css"%}'rel="stylesheet"> {% endcomment %}
   
-  <link href='{%static "css/bootstrap-datepicker.css"%}'rel="stylesheet">
+  {% comment %} <link href='{%static "css/bootstrap-datepicker.css"%}'rel="stylesheet"> {% endcomment %}
   <link href='{%static "css/search.css"%}'rel="stylesheet">
-  <link href='{%static "css/aos.css"%}'rel="stylesheet">
-  <link href='{%static "css/jquery.mb.YTPlayer.min.css"%}'media="all" rel="stylesheet" type="text/css">
+  {% comment %} <link href='{%static "css/jquery.mb.YTPlayer.min.css"%}'media="all" rel="stylesheet" type="text/css"> {% endcomment %}
  
 
 
   <link href='{%static "css/style.css"%}'rel="stylesheet">
-  <link href='{%static "css/css"%}'rel="stylesheet">
-  <link href='{%static "fonts/icomoon/style.css"%}' rel="stylesheet">
+  {% comment %} 導覽列 {% endcomment %}
+  <link href='{%static "fonts/icomoon/style.css"%}' rel="stylesheet"> 
   
-    <link href='{%static "css/login/main.css"%}' rel="stylesheet">
   {% block mycss %} {% endblock mycss %}
 <script>
       function openNav() {
@@ -242,11 +235,6 @@
   
     <!-- loader -->
     <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#ff5e15"/></svg></div>
-  
-   
-  
-  
-      
 
 
     <script type="text/javascript" src='{%static "js/holder.min.js.下載"%}'></script>
@@ -268,33 +256,26 @@
     <!-- <script type="text/javascript" src='{%static "js/bootstrap.min.js.下載"%}'></script> -->
 
     <!-- 圖片輪播 -->
-    <script type="text/javascript" src='{%static "js/owl.carousel.min.js"%}'></script>
-    <script type="text/javascript" src='{%static "js/jquery.stellar.js"%}'></script>
+    {% comment %} <script type="text/javascript" src='{%static "js/owl.carousel.min.js"%}'></script> {% endcomment %}
+    {% comment %} <script type="text/javascript" src='{%static "js/jquery.stellar.js"%}'></script>
     <script type="text/javascript" src='{%static "js/countdown.js"%}'></script>
     <script type="text/javascript" src='{%static "js/bootstrap-datepicker.min.js"%}'></script>
-
-    <script type="text/javascript" src='{%static "js/jquery.easing.1.3.js"%}'></script>
+    <script type="text/javascript" src='{%static "js/jquery.easing.1.3.js"%}'></script> {% endcomment %}
     
     <script type="text/javascript" src='{%static "js/aos.js"%}'></script>
-    
+{% comment %}     
     <script type="text/javascript" src='{%static "js/jquery.fancybox.min.js""%}'></script>
     <script type="text/javascript" src='{%static "js/jquery.sticky.js"%}'></script>
-    <script type="text/javascript" src='{%static "js/jquery.mb.YTPlayer.min.js"%}'></script>
+    <script type="text/javascript" src='{%static "js/jquery.mb.YTPlayer.min.js"%}'></script> {% endcomment %}
  
  
     
 
+    
+    
+    {% comment %} <script src='{%static "js/login/main.js"%}'></script> {% endcomment %}
+    {% block myjs %} {% endblock myjs %}
     <script type="text/javascript" src='{%static "js/main.js"%}'></script>
-    <script type="text/javascript" src='{%static "js/tagInput.js"%}'></script>
-
-    <script type="text/javascript" src='{%static "js/Simditor/module.js"%}'></script>
-    <script type="text/javascript" src='{%static "js/Simditor/hotkeys.js"%}'></script>
-    <script type="text/javascript" src='{%static "js/Simditor/uploader.js"%}'></script>
-    <script type="text/javascript" src='{%static "js/Simditor/simditor.js"%}'></script>
-    <script type="text/javascript" src='{%static "js/Simditor/simditor-mark-master/lib/simditor-mark.js"%}'></script>
-    
-    <script src='{%static "js/login/main.js"%}'></script>
-    
   </body>
   
   </html>

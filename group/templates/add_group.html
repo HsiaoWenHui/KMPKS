@@ -2,6 +2,8 @@
 {% load static %}
 {% block content %}
 <link href='{%static "css/Simditor/simditor.css"%}' rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css"> <!--下拉選單時使用-->
 <script type="text/javascript" src='{%static "js/jquery-3.3.1.min.js"%}'></script>
 <script>
 //文字編輯器
@@ -93,4 +95,11 @@
   }
  
 </script>
+{% block myjs %} 
+<script type="text/javascript" src='{%static "js/Simditor/module.js"%}'></script>
+<script type="text/javascript" src='{%static "js/Simditor/hotkeys.js"%}'></script>
+<script type="text/javascript" src='{%static "js/Simditor/uploader.js"%}'></script>
+<script type="text/javascript" src='{%static "js/Simditor/simditor.js"%}'></script>
+<script type="text/javascript" src='{%static "js/Simditor/simditor-mark-master/lib/simditor-mark.js"%}'></script>
+{% endblock myjs %}
 {% endblock  %}
