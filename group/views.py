@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from personal.models import UserProfile
 from group.models import group,articleGroup,articleGroup_category,group_category,member,message
-from article.models import article
+from article.models import article,tag
 from django.http import HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt 
 from django.db.models import Q
@@ -338,11 +338,29 @@ def chat(request,group_id):
     return render(request, 'chat.html',locals())
 
 def search(request):
-    user=UserProfile.objects.get(user=request.user)
-    if request.method =="POST":
-        keyword=request.POST["group_keyword"]
+    if 'group_keyword' in request.GET:
+        user=UserProfile.objects.get(user=request.user) 
+        keyword=request.GET["group_keyword"]
         search_result=group.objects.filter(Q(name__contains=keyword)|Q(intro__contains=keyword))
-        print(search_result[0].name)
         return render(request, 'group_search.html',locals())
+    else:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+def article_search(request,index):
+    if "article_keyword" in request.GET:
+        user=UserProfile.objects.get(user=request.user)
+        g_unit=group.objects.get(id=index)
+
+        search_way=1#組內搜尋
+    
+        article_in_group=articleGroup.objects.filter(groupID=index)
+        article_list=[]
+        for i in article_in_group:
+            article_list.append(i.articleID.id)
+        keyword=request.GET["article_keyword"]
+        tag_keyword=tag.objects.get(name=keyword)
+        search_temp=article.objects.filter(id__in=article_list)
+        search_temp=search_temp.filter(Q(tags=tag_keyword)|Q(title__contains=keyword)|Q(content__contains=keyword))
+        search_result=search_temp.filter(Q(private=0)|Q(private=2))
+        return render(request, 'search.html',locals())
     else:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

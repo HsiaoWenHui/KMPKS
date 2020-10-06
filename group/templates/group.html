@@ -98,6 +98,13 @@
                 {%for c in category_list%}
                    <a href="/group/{{g_unit.id}}/{{c.id}}/category/" class="more">{{c.name}},</a>
                 {%endfor%}
+                <br>
+                <p>組內文章搜尋:</p>
+                <form action="/group/{{g_unit.id}}/search/" method="get">
+                    {% csrf_token %}
+                    <input type="text" id="article_keyword" name="article_keyword"style="border-style: groove;">
+                    <input type="submit" value="搜尋">
+                </form>
             </div>
             
             <div class="chatbox chatbox22 chatbox--tray">

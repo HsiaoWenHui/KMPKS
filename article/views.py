@@ -16,6 +16,7 @@ from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 import random
 from bs4 import BeautifulSoup
+from django.contrib import messages
 # from django.utils.module_loading import import_string
 # from markdownx.settings import MARKDOWNX_MARKDOWNIFY_FUNCTION
 # Create your views here.
@@ -40,27 +41,45 @@ def articleIndex(request,index):
     u_unit=UserProfile.objects.get(id=a_unit.author.id)
     tags=a_unit.tags.all()
     categories=a_unit.categorys.all()
-
+    privacy=a_unit.private ##文章隱私設定: 0:公開 1:私有 2:只有群組成員可以看
     comments=comment.objects.filter(post=a_unit)
     comment_count=comment.objects.filter(post=a_unit).count
-    
-    if request.method =="GET":
-        a_unit.like=a_unit.like+0.5
-        a_unit.save()
-        return render(request, 'article.html',locals())
-    if request.method =="POST":
+    can_read=False
 
-        if 'message' in request.POST.keys() and request.POST['message']:
-            message=request.POST['message']
-            unit=comment.objects.create(post=a_unit,parent_id=0,created_by=user,content=message)
-            unit.save()
-        else:
-            reply=request.POST['replyTxt']
-            p_id=request.POST['parent']
-            unit=comment.objects.create(post=a_unit,parent_id=p_id,created_by=user,content=reply)
-            unit.save()
-        return render(request, 'article.html',locals())
+    if a_unit.author == user:
+        can_read=True
+    elif privacy==0:
+        can_read=True
+    elif privacy==2:
+        joined_group=articleGroup.objects.filter(articleID=a_unit) #找出該文章所分享進去的群組
+        joined_group_list=[]
+        for i in joined_group:
+            joined_group_list.append(i.groupID)
+        permission_member = member.objects.filter(groupID__in=joined_group_list) #找出那些群組的成員關聯表
+        if permission_member.filter(memberID=user): #如果使用者有在那些關聯表中 即可觀看文章
+            can_read=True
+        
+    if can_read ==True:
+        if request.method =="GET":
+            a_unit.like=a_unit.like+0.5
+            a_unit.save()
+            return render(request, 'article.html',locals())
+        if request.method =="POST":
 
+            if 'message' in request.POST.keys() and request.POST['message']:
+                message=request.POST['message']
+                unit=comment.objects.create(post=a_unit,parent_id=0,created_by=user,content=message)
+                unit.save()
+            else:
+                if 'replyTxt' in request.POST.keys() and request.POST['replyTxt']:
+                    reply=request.POST['replyTxt']
+                    p_id=request.POST['parent']
+                    unit=comment.objects.create(post=a_unit,parent_id=p_id,created_by=user,content=reply)
+                    unit.save()
+            return render(request, 'article.html',locals())
+    else:
+        messages.error(request, '你沒有權限閱讀此文章哦') 
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 def del_comment(request,index,comment_id):
     if request.user.is_authenticated:
         message=comment.objects.get(id=comment_id)
@@ -100,14 +119,20 @@ def addArticle(request):
 
                 addTags(unit.id,nTags)
                 addCategory(unit,nCategory,oldCategory_list)
+                #文章設定群組分享
                 newGroup_list=request.POST.getlist('checkboxs',None)
                 
-
-                for gID in newGroup_list:
-                    g=group.objects.get(id=gID)
-                    articleGroup_unit=articleGroup.objects.create(groupID=g,articleID=unit)
-                    articleGroup_unit.save()
-                return HttpResponseRedirect('/article/'+str(unit.id)+'/')
+                if newGroup_list :
+                    for gID in newGroup_list:
+                        g=group.objects.get(id=gID)
+                        articleGroup_unit=articleGroup.objects.create(groupID=g,articleID=unit)
+                        articleGroup_unit.save()
+                        post=article.objects.get(id=unit.id)
+                        if post.private==1:
+                            post.private=2#防止有隱私設定私人 但是卻選要分享的群組
+                            post.save()
+                    return HttpResponseRedirect('/article/'+str(unit.id)+'/')
+                
             else:
             
                 return render(request, 'add_article.html',locals())
@@ -138,19 +163,24 @@ def editArticle(request,index):
 
                 newGroup_list=request.POST.getlist('checkboxs',None)#編輯過後的所有群組ID
                 newGroup_list=[ int(x) for x in newGroup_list ] #把str轉int
+
+                if newGroup_list: #防止有隱私設定私人 但是卻選要分享的群組
+                    post=article.objects.get(id=index)
+                    if post.private==1:
+                        post.private=2#防止有隱私設定私人 但是卻選要分享的群組
+                        post.save()
+
                 for gID in newGroup_list:
                     if gID not in articleGroup_list:
-                        print("有新勾選的資料")
                         g=group.objects.get(id=gID)
                         articleGroup_unit=articleGroup.objects.create(groupID=g,articleID=e_article)
                         articleGroup_unit.save()
                 for delID in articleGroup_list:
                     if delID not in newGroup_list:
-                        print("有取消勾選的資料")
                         delUnit=group.objects.get(id=delID)
                         del_rel=articleGroup.objects.filter(groupID=delUnit,articleID=e_article)
                         del_rel.delete()
-
+                
                 return HttpResponseRedirect('/article/'+str(e_article.id))
             else:
                 title=e_article.title
@@ -293,14 +323,14 @@ def editCategory(a,c,o):
 def tags(request,index):
     user=UserProfile.objects.get(user=request.user)
     tag_unit=tag.objects.get(id=index)
-    tag_articles=article.objects.filter(tags=tag_unit)
+    tag_articles=article.objects.filter(tags=tag_unit,private=0)
 
     return render(request, 'tags.html',locals())
 
 def categories(request,index):
     user=UserProfile.objects.get(user=request.user)
     cate_unit=category.objects.get(id=index)
-    cate_articles=article.objects.filter(categorys=cate_unit)
+    cate_articles=article.objects.filter(categorys=cate_unit,private=0)
 
     return render(request, 'category.html',locals())
 
@@ -326,12 +356,14 @@ def getImg(img):
     return img_list[0]
 
 def search(request):
-    user=UserProfile.objects.get(user=request.user)
-    if request.method =="POST":
-        keyword=request.POST["article_keyword"]
+    if "article_keyword" in request.GET:
+        user=UserProfile.objects.get(user=request.user)
+        search_way=0 #指所有文章搜尋
+        keyword=request.GET["article_keyword"]
         tag_keyword=tag.objects.get(name=keyword)
-        search_result=article.objects.filter(Q(tags=tag_keyword)|Q(title__contains=keyword)|Q(content__contains=keyword))
-        
+        search_temp=article.objects.filter(Q(tags=tag_keyword)|Q(title__contains=keyword)|Q(content__contains=keyword))
+        search_result=search_temp.filter(private=0)
         return render(request, 'search.html',locals())
+        
     else:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

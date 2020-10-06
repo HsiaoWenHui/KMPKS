@@ -16,8 +16,8 @@ def index(request):
 def home(request):
     if request.user.is_authenticated:
         user=UserProfile.objects.get(user=request.user)
-        popuPost_list=article.objects.all().order_by('-like')[:4]
-        recentPost_list=article.objects.all().order_by('-pubtime')[:4]
+        popuPost_list=article.objects.filter(private=0).order_by('-like')[:4]
+        recentPost_list=article.objects.filter(private=0).order_by('-pubtime')[:4]
         #找最新文章和最受歡迎文章
         img_list=getImg(recentPost_list)
         plainTex_list=getContentText(recentPost_list)
