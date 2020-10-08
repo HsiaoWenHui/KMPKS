@@ -82,12 +82,12 @@
                           <div class="tab-pane show active" id="tab_default_1" >
                             <form class="login100-form  row" action="/article/search/" method="get"id="article_form">
                                   {% csrf_token %}
-                                  <div class="wrap-input100  col-10" >
-                                      <input class="input100 " type="text" name="article_keyword" value=""id="article_keyword">
+                                  <div class="wrap-input100  col-10"style="padding:0"  >
+                                      <input class="input100 search-box" type="text" name="article_keyword" value=""id="article_keyword">
                                       <span class="focus-input100" data-placeholder="請輸入關鍵字">
                                       </span>
                                   </div>
-                                  <div class="col-2" style="padding:20px 0 0 0">
+                                  <div class="col-2" style="padding:5px 0 0 0">
                                     <input type="image" src="{%static "img/search_1.png" %}" id="article_search" alt="Submit"name="article_search" />
                                  
                                   </div>
@@ -105,12 +105,12 @@
                           <div class="tab-pane " id="tab_default_2">
                             <form class="login100-form row" action="/group/search/" method="get"id="group_form">
                                   {% csrf_token %}
-                                  <div class="wrap-input100 validate-input col-10" >
-                                      <input class="input100 " type="text" name="group_keyword" value=""id="group_keyword">
+                                  <div class="wrap-input100 validate-input col-10" style="padding:0" >
+                                      <input class="input100 search-box" type="text" name="group_keyword" value=""id="group_keyword">
                                       <span class="focus-input100" data-placeholder="請輸入關鍵字">
                                       </span>
                                   </div>
-                                  <div class="col-2" style="padding:20px 0 0 0">
+                                  <div class="col-2" style="padding:5px 0 0 0">
                                   <input type="image"src="{%static "img/search_1.png" %}" id="group_search"alt="Submit"name="group_search" >
                                   </div>
                             </form>

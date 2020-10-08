@@ -53,8 +53,10 @@
                             <img src="/static/img/default0.jpg/" alt="AVATAR" class="card-img-top">
                             <div class="card-body">
                                 <h5 class="card-title">尚無文章</h5>
-                                <p class="card-text">目前您還沒有自己的文章哦</p>
+                                <p class="card-text">目前還沒有文章哦</p>
+                                {% if user == owner%}
                                 <a class="btn btn-outline-dark card-button" href="/article/add/">開始撰寫</a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -82,8 +84,10 @@
                             <img src="/static/img/default0.jpg/" alt="AVATAR" class="card-img-top">
                             <div class="card-body">
                                 <h5 class="card-title">尚無群組</h5>
-                                <p class="card-text">目前您還沒有自己的群組哦</p>
+                                <p class="card-text">目前還沒有群組哦</p>
+                                {% if user == owner%}
                                 <a class="btn btn-outline-dark card-button" href="/group/add/">創立群組</a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

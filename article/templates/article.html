@@ -146,9 +146,9 @@
 
                       <form action="/article/{{a_unit.id}}/" method="post">
                         {% csrf_token %}
-                        <div class="form-group  border border-secondary">
+                        <div class="form-group">
                 
-                          <textarea placeholder="Balabala" name="message" id="message" cols="30" rows="10" class="form-control" style="height: 200px;"></textarea>
+                          <textarea placeholder="Balabala" name="message" id="message" cols="30" rows="10" class="form-control" style="height: 200px; border-color:black;"></textarea>
                         </div>
                         <div class="form-group">
                           <input type="submit" value="Post Comment" class="btn btn-outline-dark">

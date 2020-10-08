@@ -1439,6 +1439,9 @@ h1, h2, h3, h4, h5,
 .group-section{
   margin-top: 20px;
 }
+.search-box{
+  width: 100%;
+}
 @media screen and (max-width: 990px){
   .hello{
     display:none;
@@ -1473,11 +1476,30 @@ h1, h2, h3, h4, h5,
     right:1%;
     padding: 0,10px;
   }
-  
-}
-
-@media screen and (max-width: 450px){
   .title-right{
     padding-right:0;
   }
+  .single-content{
+    margin:0 30px;
+    font-size:.5rem;
+  }
+  .single-content>h1{
+    font-size:1.8rem;
+  }
+  .section-title h2 {
+    font-size:15px;    
+  }
+  .comment-list li .comment-body h3 {
+    font-size: 15px;
+  }
+  .comment-list li .comment-body .reply {
+    font-size:8px;
+  }
+  .section-title h1{
+    font-size:1.8rem;
+  }
+  .section-title h5{
+    font-size:1.0rem;
+  }
+  
 }

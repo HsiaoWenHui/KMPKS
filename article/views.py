@@ -360,7 +360,10 @@ def search(request):
         user=UserProfile.objects.get(user=request.user)
         search_way=0 #指所有文章搜尋
         keyword=request.GET["article_keyword"]
-        tag_keyword=tag.objects.get(name=keyword)
+        try:
+            tag_keyword=tag.objects.get(name=keyword)
+        except:
+            tag_keyword=None
         search_temp=article.objects.filter(Q(tags=tag_keyword)|Q(title__contains=keyword)|Q(content__contains=keyword))
         search_result=search_temp.filter(private=0)
         return render(request, 'search.html',locals())

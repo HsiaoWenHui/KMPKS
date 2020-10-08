@@ -136,7 +136,7 @@
     margin-top: -3px;
     border: 0;
     border-top: 1px solid #eee;
-    padding: 30px 0px 30px 31px;
+    padding: 30px 0px 30px 21px;
   }
 }
 @media screen and (max-width: 350px) {
@@ -152,18 +152,18 @@
     font-size: 15px;
   }
   .tabbable-panel {
-    padding: 10px ,0;
+    padding: 10px 0;
     height: 100%;
   }
   .tabbable-line > .tab-content {
     margin-top: -3px;
     border: 0;
     border-top: 1px solid #eee;
-    padding: 30px 0px 30px 50px;
+    padding: 30px 0px 30px 30px;
   }
   .hot{
-    width: 80%;
-    margin-top: 0;
+    width: 85%;
+    margin-top: 55px;
   }
   .hot-tag{
     margin: 5px;
