@@ -69,7 +69,7 @@
                   <a href="/article/{{recentPost_list.0.id}}">
                     <img src={{img_list.0}} alt="Image" class="img-fluid"></a>
                   <h2><a href="/article/{{recentPost_list.0.id}}">{{recentPost_list.0.title}}</a></h2>
-                  <div id="content"> {{plainTex_list.0|safe}}</div>
+                  <div id="content" class="post-content"> {{plainTex_list.0|safe}}</div>
                  
                   <div class="post-meta">
                     <span class="d-block"><a href="/personal/{{recentPost_list.0.author.id}}">{{recentPost_list.0.author.name}}</a> </span>
@@ -174,7 +174,7 @@
               <div class="thumbnail" style="background-image: url({{t_a_img_list.0}})"></div>
               <div class="contents">
                 <h2><a href="/article/{{tag_article_list.0.id}}">{{tag_article_list.0.title}}</a></h2>
-                <p class="mb-3">{{t_a_plainText.0|safe}}</p>
+                <p class="mb-3 post-content">{{t_a_plainText.0|safe}}</p>
                 <div class="post-meta">
                   <span class="d-block"><a href="/personal/{{tag_article_list.0.author.id}}">{{tag_article_list.0.author.name}}</a> in <a href="#">{{tag_list.0.name}}</a></span>
                   <span class="date-read">{{tag_article_list.0.pubtime|date:"M d, Y"}}<span class="mx-1">&bullet;</span> {{tag_article_list.0.like|floatformat:"0"}} views  <span class="icon-star2"></span></span>
