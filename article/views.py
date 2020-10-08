@@ -131,7 +131,7 @@ def addArticle(request):
                         if post.private==1:
                             post.private=2#防止有隱私設定私人 但是卻選要分享的群組
                             post.save()
-                    return HttpResponseRedirect('/article/'+str(unit.id)+'/')
+                return HttpResponseRedirect('/article/'+str(unit.id)+'/')
                 
             else:
             

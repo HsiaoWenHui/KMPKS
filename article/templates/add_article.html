@@ -24,7 +24,7 @@
       var editor = new Simditor({
           textarea: $("#id_content"),
           placeholder: "在此撰寫文章",
-          toolbar: [ 'title', 'bold', 'italic', 'underline', 'strikethrough', 'color','mark', '|', 'ol', 'ul', 'blockquote','hr','|','indent','outdent','alignment', 'code', 'table', 'link','image'],
+          toolbar: [ 'title', 'bold', 'italic', 'underline', 'strikethrough', 'color', '|', 'ol', 'ul', 'blockquote','hr','|','indent','outdent','alignment', 'code', 'table', 'link','image','mark'],
           pasteImage:true,
           
           upload: {
@@ -73,13 +73,13 @@
       <div class="checkbox-inline">
         <label>
           <input type="checkbox" name="checkboxs" value="{{g.groupID.id}}" onPaste="" onPaste=""
-            onkeydown="if (event.keyCode == 13) {return false;}">{{g.groupID.name}}
+            onkeydown="if (event.keyCode == 13) {return false;}">  {{g.groupID.name}}
         </label>
       </div>
       {% endfor %}
     </div>
     <div class="form-group row">
-      <div class="col-md-4 col-sm-12">
+      <div class="col-md-4 col-sm-12" style="margin-bottom:15px">
         <label for="exampleFormControlSelect1">分類設定 (最多五項)</label>
         <div class="checkbox-inline " id="category">
           <select multiple class=" form-control selectpicker" data-container="body" data-live-search="true" data-hide-disabled="true"

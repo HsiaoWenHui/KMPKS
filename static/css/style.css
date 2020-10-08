@@ -1230,16 +1230,16 @@ h1, h2, h3, h4, h5,
 
 .form-control {
   margin-right: 10px;
-  height: 50px;
+  /* height: 50px; */
   padding-left: 20px;
   padding-right: 20px;
-  border-radius: 30px;
+  border-radius: 10px;
   border: none;
   background: #fff;
-  border-bottom: 1px solid transparent;
-  border-bottom: 1px solid #ccc; }
+  border: 1px solid transparent;
+  border: 1px solid #ccc; }
   .form-control:active, .form-control:focus {
-    border-bottom: 1px solid #ccc; }
+    border: 1px solid #ccc; }
 
 .btn {
   border-radius: 30px;
@@ -1476,7 +1476,7 @@ h1, h2, h3, h4, h5,
   
 }
 
-@media screen and (max-width: 350px){
+@media screen and (max-width: 450px){
   .title-right{
     padding-right:0;
   }
