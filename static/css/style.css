@@ -37,6 +37,10 @@ a {
 pre{
   background: 	#f7f9fa;
   border:1px solid #e6e8eb;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-x: scroll;
+
 }
 h1, h2, h3, h4, h5,
 .h1, .h2, .h3, .h4, .h5 {
@@ -1458,6 +1462,9 @@ h1, h2, h3, h4, h5,
   }
 }
 @media screen and (max-width: 450px){
+  pre{
+    width: 260px;
+  }
   .card{
     /* width: 80%; */
     float: left;
