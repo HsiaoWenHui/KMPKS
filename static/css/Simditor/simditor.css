@@ -706,6 +706,7 @@
   word-wrap: normal;
   overflow-x: auto;
 }
+
 .simditor .simditor-body pre code, .editor-style pre code {
   display: block;
   padding: 0;
