@@ -69,5 +69,4 @@ def getContentText(c):
         for i in soup.select('img'):
             i.extract()
         text_list.append(soup.prettify())
-    print(text_list[0])
     return text_list
