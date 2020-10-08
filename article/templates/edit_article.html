@@ -19,7 +19,7 @@
       var editor = new Simditor({
           textarea: $("#id_content"),
           placeholder: "在此撰寫文章",
-          toolbar: [ 'title', 'bold', 'italic', 'underline', 'strikethrough', 'color', '|', 'ol', 'ul', 'blockquote','hr','|','indent','outdent','alignment', 'code', 'table', 'link','image','mark'],
+          toolbar: [ 'title', 'bold', 'italic', 'underline', 'strikethrough', 'color', '|', 'ol', 'ul', 'blockquote','hr','|','indent','outdent','alignment', 'code', 'table', 'link','image'],
           pasteImage:true,
           upload: {
               url: '/simditor/upload/',
@@ -158,6 +158,6 @@
 <script type="text/javascript" src='{%static "js/Simditor/hotkeys.js"%}'></script>
 <script type="text/javascript" src='{%static "js/Simditor/uploader.js"%}'></script>
 <script type="text/javascript" src='{%static "js/Simditor/simditor.js"%}'></script>
-<script type="text/javascript" src='{%static "js/Simditor/simditor-mark-master/lib/simditor-mark.js"%}'></script>
+{% comment %} <script type="text/javascript" src='{%static "js/Simditor/simditor-mark-master/lib/simditor-mark.js"%}'></script> {% endcomment %}
 {% endblock myjs %}
 {% endblock  %}
