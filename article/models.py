@@ -14,7 +14,7 @@ class tag(models.Model):
     def __str__(self):
         return 'tag:'+ self.name
 class article(models.Model):
-    title=models.CharField(max_length=20,null=False)
+    title=models.CharField(max_length=100,null=False)
     private=models.IntegerField(default=0) #文章隱私設定: 0:公開 1:私有 2:只有群組成員可以看
     # content=RichTextField() #這個後臺也彙編成編輯器的樣子
     content=models.TextField()
