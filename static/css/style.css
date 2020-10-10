@@ -1439,12 +1439,19 @@ h1, h2, h3, h4, h5,
 .group-section{
   margin-top: 20px;
 }
+.logo-title{
+ display: inline-block;
+}
 @media screen and (max-width: 990px){
   .hello{
     display:none;
   }
+  .logo-title{
+    display: none;
+  }
 }
 @media screen and (max-width: 450px){
+  
   .card{
     /* width: 80%; */
     float: left;

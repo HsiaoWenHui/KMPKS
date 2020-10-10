@@ -64,13 +64,14 @@
       <div class="container">
         <div class="row align-items-center">
           <div class="d-flex col-12">
-            <a href="/" class="col-6 site-logo">
-              <picture>
-                  <source srcset="{%static "img/logo.png" %}" media="(min-width: 992px)">
-                  <source srcset='{%static "img/logoM.png" %}' media="(min-width: 358px)">
+            <a href="/" class="col-6 site-logo" ">
+              <picture style="display: inline-block;">
+                  <!-- <source srcset="{%static "img/logo.png" %}" media="(min-width: 992px)">
+                  <source srcset='{%static "img/logoM.png" %}' media="(min-width: 358px)"> -->
                   <img src="{%static "img/logoS.png" %}" alt="">
                   
               </picture>
+              <div class="logo-title">KM=(P+K)^S</div>
             </a>
             <div id="myNav" class="overlay">
               <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
