@@ -368,8 +368,8 @@ def article_search(request,index):
         except:
             tag_keyword=None
         search_temp=article.objects.filter(id__in=article_list)
-        search_temp=search_temp.filter(Q(tags=tag_keyword)|Q(title__contains=keyword)|Q(content__contains=keyword))
-        search_result=search_temp.filter(Q(private=0)|Q(private=2))
+        search_result=search_temp.filter(Q(tags=tag_keyword)|Q(title__contains=keyword)|Q(content__contains=keyword))
+        # search_result=temp.filter(Q(private=0)|Q(private=2))
         return render(request, 'search.html',locals())
     else:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
