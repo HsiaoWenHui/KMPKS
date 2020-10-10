@@ -57,7 +57,13 @@ def groupIndex(request,group_id):
     category_list=group_category.objects.filter(group=g_unit)#群組內所有分類
     article_category=articleGroup_category.objects.filter(categoryID__in=category_list)#群組內分類的文章關聯表
     msg=message.objects.filter(group=g_unit)
-    
+    non_classified_article=[]
+    classified_article=[]
+    for i in article_category:
+        classified_article.append(i.articleID)
+    for i in article_list:
+        if i.articleID not in classified_article:
+            non_classified_article.append(i.articleID)
     if request.user.is_authenticated:
         
         if g_unit.privacy == 1:#在公開群組的情況下，使用者為該群組成員則state=0 否則為1
