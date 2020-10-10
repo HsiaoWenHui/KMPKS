@@ -33,10 +33,6 @@ def home(request):
         t_a_plainText=getContentText(tag_article_list)
         t_a_img_list=getImg(tag_article_list)
 
-        #給前端forloop
-        top1tag=[0,1,2]
-        top2tag=[3,4,5]
-        top3tag=[6,7,8]
         return render(request, 'home/home.html',locals())
     else:
         return HttpResponseRedirect('/accounts/login')

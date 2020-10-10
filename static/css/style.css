@@ -1451,13 +1451,11 @@ h1, h2, h3, h4, h5,
 .group-section{
   margin-top: 20px;
 }
-<<<<<<< HEAD
 .logo-title{
  display: inline-block;
-=======
+}
 .search-box{
   width: 100%;
->>>>>>> 634c97aff2e43e80321b42b38dcd34c86ea0a92b
 }
 @media screen and (max-width: 990px){
   .hello{
