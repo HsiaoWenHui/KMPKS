@@ -84,6 +84,12 @@
             
             <div class="col-lg-3 ml-auto">
                 <div>
+                    {% if g_unit.privacy == 1 %}
+                    <p>公開性群組</p>
+                    {% elif g_unit.privacy == 0 %}
+                    <p>非公開群組</p>
+                    {% endif %}
+                    <hr>
                     <p>創立時間 : {{g_unit.createTime|date:"M d, Y"}}</p>
                     <p>成員數 : {{a_member}}</p>
                     <p>總文章數 : {{a_article}}</p>
@@ -101,17 +107,20 @@
                     <a href="/group/{{g_unit.id}}/{{m.memberID.id}}/leaveGroup/" onclick="return deleteAlert()" class="more">Leave the group<span class="icon-keyboard_arrow_right"></span></a>
                 </p>
                 {% endif %}
+                <hr>
                 <p style="margin-bottom: 0;">群組分類:</p>
                 {%for c in category_list%}
                    <a href="/group/{{g_unit.id}}/{{c.id}}/category/" class="more">{{c.name}},</a>
                 {%endfor%}
                 <br>
+                <hr>
                 <p>組內文章搜尋:</p>
                 <form action="/group/{{g_unit.id}}/search/" method="get">
                     {% csrf_token %}
                     <input type="text" id="group_article_keyword" name="group_article_keyword"style="border: solid 1px; ">
                     <input type="submit"class="btn btn-outline-dark" value="搜尋">
                 </form>
+                
             </div>
             
             <div class="chatbox chatbox22 chatbox--tray">

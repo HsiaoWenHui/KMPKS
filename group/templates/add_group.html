@@ -25,6 +25,20 @@
     });
 </script>
 <div class="container">
+<div class="py-0">
+        <div class="half-post-entry d-block d-lg-flex bg-light">
+          <div class="img-bg" style="background-image: url('/static/img/group3.jpg')"></div>
+          <div class="contents">
+            <span class="caption">Groups</span>
+            <h2>群組功能</h2>
+            <p class="mb-3">本系統利用群組功能，讓使用者能夠分享自己的文章至特定成員當中，降低對於分享對象不信任度並提升隱私程度。
+            <br><br>群組可分為公開及非公開，公開社團每個人都能進入查看，而非公開群組則需要透過申請才能進入。
+            </p>
+            
+          </div>
+      </div>
+    </div>
+    <br>
     <form  action="/group/add/" method="post">
     {% csrf_token %}
       <div class="form-group">

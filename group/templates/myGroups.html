@@ -2,6 +2,19 @@
 {% load static %}
 {% block content %}
 <div class="container">
+    <div class="py-0">
+        <div class="half-post-entry d-block d-lg-flex bg-light">
+          <div class="img-bg" style="background-image: url('/static/img/group3.jpg')"></div>
+          <div class="contents">
+            <span class="caption">Groups</span>
+            <h2>群組功能</h2>
+            <p class="mb-3">本系統利用群組功能，讓使用者能夠分享自己的文章至特定成員當中，降低對於分享對象不信任度並提升隱私程度。
+            <br><br>群組可分為公開及非公開，公開社團每個人都能進入查看，而非公開群組則需要透過申請才能進入。
+            </p>
+            
+          </div>
+      </div>
+    </div>
     <div class="row" style="padding-top: 50px;">
         <div class="col-12">
             <h3>我的群組 | My Group</h3>
@@ -9,7 +22,7 @@
         {% for g in member_list %}
         <div class="col-lg-3 card-block">
             <div class="card" >
-                <img src='https://picsum.photos/500/230' alt="AVATAR" class="card-img-top">
+                <img src='/static/img/group2.jpg' alt="AVATAR" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title">{{g.groupID.name}}</h5>
                     <p class="card-text">{{g.groupID.intro}}</p>
@@ -24,7 +37,7 @@
         {% empty %}
         <div class="col-lg-3 card-block">
             <div class="card" >
-                <img src='https://picsum.photos/500/230' alt="AVATAR" class="card-img-top">
+                <img src='/static/img/group2.jpg' alt="AVATAR" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title">尚無群組</h5>
                     <p class="card-text">目前您還沒有自己的群組哦</p>

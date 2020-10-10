@@ -51,6 +51,25 @@
 
 </script>
 <div class="container">
+  <div class="py-0">
+        <div class="half-post-entry d-block d-lg-flex bg-light">
+          <div class="img-bg" style="background-image: url('/static/img/index.jpg')"></div>
+          <div class="contents">
+            <span class="caption">Article</span>
+            <h2>文章功能</h2>
+            <p class="mb-3">本系統以部落格形式，讓使用者能夠撰寫文章，使自己知識外顯出來。
+            <br><br>
+            <ul>
+              <li> 文章分類：在自己的部落格當中進行分類，使用者可以點選分類來觀看該作者這項分類的所有文章。</li>
+              <li> 文章標籤：作者可以將文章設定標籤，使用者可以點選標籤來觀看所有有此標籤的文章。</li>
+            </ul>
+           
+            </p>
+            
+          </div>
+      </div>
+    </div>
+    <br>
   <form action="/article/add/" method="post">
     {% csrf_token %}
     <div class="form-group">
