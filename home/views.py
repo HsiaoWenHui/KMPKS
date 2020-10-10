@@ -30,7 +30,7 @@ def home(request):
             for i in temp_list:
                 tag_article_list.append(i)
                 
-        t_a_plainText=getContentText(tag_article_list)
+        # t_a_plainText=getContentText(tag_article_list)
         t_a_img_list=getImg(tag_article_list)
 
         return render(request, 'home/home.html',locals())
