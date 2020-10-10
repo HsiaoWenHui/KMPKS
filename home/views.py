@@ -68,6 +68,5 @@ def getContentText(c):
         soup = BeautifulSoup(u.content, 'html.parser')
         for i in soup.select('img'):
             i.extract()
-        text_list.append(soup.get_text(' ', strip=True))
-
+        text_list.append(soup.prettify())
     return text_list

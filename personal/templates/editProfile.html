@@ -1,6 +1,22 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<link href='{%static "css/Simditor/simditor.css"%}' rel="stylesheet">
+<script type="text/javascript" src='{%static "js/jquery-3.3.1.min.js"%}'></script>
+<script>
+//文字編輯器
+    $(function() {
+      
+      var editor = new Simditor({
+          textarea: $("#newIntro"),
+          placeholder: "在此撰寫介紹",
+          toolbar: [ 'title', 'bold', 'italic', 'underline', 'strikethrough', 'color', '|', 'ol', 'ul', 'blockquote','hr','|','indent','outdent','alignment',  'link'],
+          
+          
+        });
+        
+    });
+</script>
 <div class="container">
   <div class="section-title"><h2>個人資料設定</h2></div>
     <form  action="/personal/editProfile/" method="post">
@@ -84,4 +100,11 @@
   }
  
 </script>
+{% block myjs %} 
+<script type="text/javascript" src='{%static "js/Simditor/module.js"%}'></script>
+<script type="text/javascript" src='{%static "js/Simditor/hotkeys.js"%}'></script>
+<script type="text/javascript" src='{%static "js/Simditor/uploader.js"%}'></script>
+<script type="text/javascript" src='{%static "js/Simditor/simditor.js"%}'></script>
+
+{% endblock myjs %}
 {% endblock  %}

@@ -53,9 +53,9 @@ def groupIndex(request,group_id):
     g_unit=group.objects.get(id=group_id)
     user=UserProfile.objects.get(user=request.user)
     name=user.name
-    article_list=articleGroup.objects.filter(groupID=g_unit)
-    category_list=group_category.objects.filter(group=g_unit)
-    article_category=articleGroup_category.objects.filter(categoryID__in=category_list)
+    article_list=articleGroup.objects.filter(groupID=g_unit) #群組內所有文章
+    category_list=group_category.objects.filter(group=g_unit)#群組內所有分類
+    article_category=articleGroup_category.objects.filter(categoryID__in=category_list)#群組內分類的文章關聯表
     msg=message.objects.filter(group=g_unit)
     
     if request.user.is_authenticated:
@@ -346,7 +346,7 @@ def search(request):
     else:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 def article_search(request,index):
-    if "article_keyword" in request.GET:
+    if "group_article_keyword" in request.GET:
         user=UserProfile.objects.get(user=request.user)
         g_unit=group.objects.get(id=index)
 
@@ -356,8 +356,11 @@ def article_search(request,index):
         article_list=[]
         for i in article_in_group:
             article_list.append(i.articleID.id)
-        keyword=request.GET["article_keyword"]
-        tag_keyword=tag.objects.get(name=keyword)
+        keyword=request.GET["group_article_keyword"]
+        try:
+            tag_keyword=tag.objects.get(name=keyword)
+        except:
+            tag_keyword=None
         search_temp=article.objects.filter(id__in=article_list)
         search_temp=search_temp.filter(Q(tags=tag_keyword)|Q(title__contains=keyword)|Q(content__contains=keyword))
         search_result=search_temp.filter(Q(private=0)|Q(private=2))

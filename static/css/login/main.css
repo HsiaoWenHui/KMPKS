@@ -141,6 +141,17 @@ iframe {
 
 /*//////////////////////////////////////////////////////////////////
 [ Utility ]*/
+.p-t-50 {padding-top: 50px;}
+
+
+.m-t-35 {margin-top: 35px;}
+.m-t-85 {margin-top: 85px;}
+
+.m-b-8 {margin-bottom: 8px;}
+
+.m-b-35 {margin-bottom: 35px;}
+
+.m-b-50 {margin-bottom: 50px;}
 .txt1 {
   font-family: MyCustomFont;
   font-size: 15px;

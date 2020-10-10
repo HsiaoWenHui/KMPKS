@@ -7,28 +7,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="{%static "img/logo2.png"%}" />
-  <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-  <!-- <link href="https://fonts.googleapis.com/css?family=B612+Mono|Cabin:400,700&display=swap" rel="stylesheet"> -->
 
   <link href='{%static "css/bootstrap.min.css"%}' rel="stylesheet">
-  <link href='{%static "css/jquery-ui.css"%}'rel="stylesheet">
-  <link href='{%static "css/owl.carousel.min.css"%}'rel="stylesheet">
-  <link href='{%static "css/owl.theme.default.min.css"%}' rel="stylesheet">
-  <link href='{%static "css/jquery.fancybox.min.css"%}'rel="stylesheet">
+  {% comment %} <link href='{%static "css/jquery-ui.css"%}'rel="stylesheet"> {% endcomment %}
+  {% comment %} <link href='{%static "css/jquery.fancybox.min.css"%}'rel="stylesheet"> {% endcomment %}
   
-  <link href='{%static "css/bootstrap-datepicker.css"%}'rel="stylesheet">
+  {% comment %} <link href='{%static "css/bootstrap-datepicker.css"%}'rel="stylesheet"> {% endcomment %}
   <link href='{%static "css/search.css"%}'rel="stylesheet">
-  <link href='{%static "css/aos.css"%}'rel="stylesheet">
-  <link href='{%static "css/jquery.mb.YTPlayer.min.css"%}'media="all" rel="stylesheet" type="text/css">
+  {% comment %} <link href='{%static "css/jquery.mb.YTPlayer.min.css"%}'media="all" rel="stylesheet" type="text/css"> {% endcomment %}
  
 
 
   <link href='{%static "css/style.css"%}'rel="stylesheet">
-  <link href='{%static "css/css"%}'rel="stylesheet">
-  <link href='{%static "fonts/icomoon/style.css"%}' rel="stylesheet">
+  {% comment %} 導覽列 {% endcomment %}
+  <link href='{%static "fonts/icomoon/style.css"%}' rel="stylesheet"> 
   
-    <link href='{%static "css/login/main.css"%}' rel="stylesheet">
   {% block mycss %} {% endblock mycss %}
 <script>
       function openNav() {
@@ -90,12 +83,12 @@
                           <div class="tab-pane show active" id="tab_default_1" >
                             <form class="login100-form  row" action="/article/search/" method="get"id="article_form">
                                   {% csrf_token %}
-                                  <div class="wrap-input100  col-10" >
-                                      <input class="input100 " type="text" name="article_keyword" value=""id="article_keyword">
+                                  <div class="wrap-input100  col-10"style="padding:0"  >
+                                      <input class="input100 search-box" type="text" name="article_keyword" value=""id="article_keyword">
                                       <span class="focus-input100" data-placeholder="請輸入關鍵字">
                                       </span>
                                   </div>
-                                  <div class="col-2" style="padding:20px 0 0 0">
+                                  <div class="col-2" style="padding:5px 0 0 0">
                                     <input type="image" src="{%static "img/search_1.png" %}" id="article_search" alt="Submit"name="article_search" />
                                  
                                   </div>
@@ -113,12 +106,12 @@
                           <div class="tab-pane " id="tab_default_2">
                             <form class="login100-form row" action="/group/search/" method="get"id="group_form">
                                   {% csrf_token %}
-                                  <div class="wrap-input100 validate-input col-10" >
-                                      <input class="input100 " type="text" name="group_keyword" value=""id="group_keyword">
+                                  <div class="wrap-input100 validate-input col-10" style="padding:0" >
+                                      <input class="input100 search-box" type="text" name="group_keyword" value=""id="group_keyword">
                                       <span class="focus-input100" data-placeholder="請輸入關鍵字">
                                       </span>
                                   </div>
-                                  <div class="col-2" style="padding:20px 0 0 0">
+                                  <div class="col-2" style="padding:5px 0 0 0">
                                   <input type="image"src="{%static "img/search_1.png" %}" id="group_search"alt="Submit"name="group_search" >
                                   </div>
                             </form>
@@ -147,7 +140,7 @@
               
               <div class="hello" style="font-size: 23px;"> Hi, {{user.name}}</div>
               <span class="text-right"style="font-size:30px;cursor:pointer " onclick="openNav()"><img src="{%static "img/search.png" %}" style="margin-bottom:8px;"></span>
-              <a href="#" class="  d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black text-right"style="padding:8px;"><span
+              <a href="#" class="  d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black text-right"style="padding:8px; padding-right:0;"><span
                   class="icon-menu h3"></span></a>
               
             </div>
@@ -163,7 +156,7 @@
       <div class="container">
         <div class="d-flex align-items-center  justify-content-between">
           
-          <div class="mr-auto  justify-content-between">
+          <div class="mx-auto  justify-content-between">
             <nav class="site-navigation position-relative text-right" role="navigation">
               <ul class="site-menu main-menu js-clone-nav mr-auto d-none pl-0 d-lg-block">
                 <li class="active">
@@ -186,7 +179,6 @@
                 <li>
                   <a href="/group/add/" class="nav-link text-left">New group</a>
                 </li>
-                <li><a href="#" class="nav-link text-left">literature review</a></li>
                 <li><a href="/" class="nav-link text-left">About</a></li>
                 <li><a href="/accounts/logout/" class="nav-link text-left">Logout</a></li>
                 
@@ -243,11 +235,6 @@
   
     <!-- loader -->
     <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#ff5e15"/></svg></div>
-  
-   
-  
-  
-      
 
 
     <script type="text/javascript" src='{%static "js/holder.min.js.下載"%}'></script>
@@ -269,33 +256,26 @@
     <!-- <script type="text/javascript" src='{%static "js/bootstrap.min.js.下載"%}'></script> -->
 
     <!-- 圖片輪播 -->
-    <script type="text/javascript" src='{%static "js/owl.carousel.min.js"%}'></script>
-    <script type="text/javascript" src='{%static "js/jquery.stellar.js"%}'></script>
+    {% comment %} <script type="text/javascript" src='{%static "js/owl.carousel.min.js"%}'></script> {% endcomment %}
+    {% comment %} <script type="text/javascript" src='{%static "js/jquery.stellar.js"%}'></script>
     <script type="text/javascript" src='{%static "js/countdown.js"%}'></script>
     <script type="text/javascript" src='{%static "js/bootstrap-datepicker.min.js"%}'></script>
-
-    <script type="text/javascript" src='{%static "js/jquery.easing.1.3.js"%}'></script>
+    <script type="text/javascript" src='{%static "js/jquery.easing.1.3.js"%}'></script> {% endcomment %}
     
     <script type="text/javascript" src='{%static "js/aos.js"%}'></script>
-    
+{% comment %}     
     <script type="text/javascript" src='{%static "js/jquery.fancybox.min.js""%}'></script>
     <script type="text/javascript" src='{%static "js/jquery.sticky.js"%}'></script>
-    <script type="text/javascript" src='{%static "js/jquery.mb.YTPlayer.min.js"%}'></script>
+    <script type="text/javascript" src='{%static "js/jquery.mb.YTPlayer.min.js"%}'></script> {% endcomment %}
  
  
     
 
+    
+    
+    {% comment %} <script src='{%static "js/login/main.js"%}'></script> {% endcomment %}
+    {% block myjs %} {% endblock myjs %}
     <script type="text/javascript" src='{%static "js/main.js"%}'></script>
-    <script type="text/javascript" src='{%static "js/tagInput.js"%}'></script>
-
-    <script type="text/javascript" src='{%static "js/Simditor/module.js"%}'></script>
-    <script type="text/javascript" src='{%static "js/Simditor/hotkeys.js"%}'></script>
-    <script type="text/javascript" src='{%static "js/Simditor/uploader.js"%}'></script>
-    <script type="text/javascript" src='{%static "js/Simditor/simditor.js"%}'></script>
-    <script type="text/javascript" src='{%static "js/Simditor/simditor-mark-master/lib/simditor-mark.js"%}'></script>
-    
-    <script src='{%static "js/login/main.js"%}'></script>
-    
   </body>
   
   </html>

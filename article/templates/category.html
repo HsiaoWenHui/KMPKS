@@ -17,13 +17,13 @@
                                 <h5 class="card-title">{{i.title}}</h5>
                                 <span class="card-owner">by <a href="/personal/{{i.author.id}}">{{i.author.name}}</a> </span>
                                 <!-- <p class="card-text">{{article.content|safe}}</p> -->
-                                <p class="card-owner"> Categories:
+                                {% comment %} <p class="card-owner"> Categories:
                                     {% for c in i.categorys.all %} 
                                     
                                     <a href="/article/category/{{c.id}}">{{c.name}}</a>,
                                     
                                     {% endfor %}
-                                </p>
+                                </p> {% endcomment %}
                                 <p class="card-owner">
                                     Tags: 
                                     {% for t in i.tags.all%}
@@ -35,6 +35,7 @@
                             </div>
                         </div>
         </div>
+        
         {%endfor%}
 
 </div>

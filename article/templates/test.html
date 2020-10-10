@@ -1,7 +1,0 @@
-<form method="POST" action="/markdownx/markdownify/">{% csrf_token %}
-    <textarea id="content" placeholder="Balabala" name="content" autofocus></textarea>
-    {{ form }}
-    <button id="submit" type="submit" class="btn btn-outline-dark">發布</button>
-</form>
-
-{{ form.media }}

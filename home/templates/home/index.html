@@ -8,7 +8,7 @@
 		<link rel="shortcut icon" href="{%static "img/logo2.png"%}" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link href='{%static "css/home/main.css"%}'rel="stylesheet">
-		<noscript><link rel="stylesheet" href='{%static "css/home/noscript.css"%}'/></noscript>
+		{% comment %} <noscript><link rel="stylesheet" href='{%static "css/home/noscript.css"%}'/></noscript> {% endcomment %}
 	</head>
 	<body class="is-preload">
 
@@ -111,7 +111,6 @@
 		<script src='{%static "js/jquery-3.5.1.min.js"%}'></script>
 		<script src='{%static "js/home/browser.min.js"%}'></script>
 		<script src='{%static "js/home/breakpoints.min.js"%}'></script>
-		<script src='{%static "js/home/util.js"%}'></script>
 		<script src='{%static "js/home/main.js"%}'></script>
 
 	</body>
