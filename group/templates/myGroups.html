@@ -17,7 +17,7 @@
     </div>
     <div class="row" style="padding-top: 50px;">
         <div class="col-12">
-            <h3>我的群組 | My Group</h3>
+            <h3>我的群組</h3>
         </div>
         {% for g in member_list %}
         <div class="col-lg-3 card-block">
@@ -29,7 +29,7 @@
                     {% if g.state == 1 %}
                     <a class="btn btn-outline-dark card-button" href="/group/{{g.groupID.id}}/cancel">取消申請</a>
                     {% else %}
-                    <a class="btn btn-outline-dark card-button" href="/group/{{g.groupID.id}}">Enter</a>
+                    <a class="btn btn-outline-dark card-button" href="/group/{{g.groupID.id}}">進入</a>
                     {% endif %}
                 </div>
             </div>

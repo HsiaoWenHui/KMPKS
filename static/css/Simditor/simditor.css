@@ -167,7 +167,7 @@
 }
 .simditor .simditor-wrapper .simditor-placeholder {
   display: none;
-  /* position: absolute; */
+  position: absolute;
   left: 0;
   z-index: 0;
   padding: 22px 15px;

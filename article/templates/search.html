@@ -5,9 +5,9 @@
 
 <div class="container">
     <div class="section-title">
-        <h3 class="text-left">Article search : {{keyword}}
+        <h3 class="text-left">文章搜尋 : {{keyword}}
         {% if search_way == 1 %}
-         in {{g_unit.name}} group
+         於 {{g_unit.name}} 群組
         {% endif %}
         </h3>
     </div>
@@ -34,7 +34,7 @@
                                     {% endfor %}
             
                                 </p>
-                                <a class="btn btn-outline-dark card-button" href="/article/{{i.id}}">more</a>
+                                <a class="btn btn-outline-dark card-button" href="/article/{{i.id}}">閱讀</a>
                             </div>
                         </div>
         </div>

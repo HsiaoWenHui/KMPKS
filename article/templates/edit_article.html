@@ -18,7 +18,6 @@
     $(function() {
       var editor = new Simditor({
           textarea: $("#id_content"),
-          placeholder: "在此撰寫文章",
           toolbar: [ 'title', 'bold', 'italic', 'underline', 'strikethrough', 'color', '|', 'ol', 'ul', 'blockquote','hr','|','indent','outdent','alignment', 'code', 'table', 'link','image'],
           pasteImage:true,
           upload: {
@@ -115,7 +114,7 @@
             <textarea id="id_content"name="newContent" autofocus>{{content}}</textarea>
           </div>
           <div class="form-group">
-            <label for="tags">Tags: (最多五項)</label>
+            <label for="tags">標籤: (最多五項)</label>
             <div class="form-control tags" id="tags">
               <input type="text" class="labelinput">
               <input type="hidden" value="{% for t in tags%}{{t.name}},{%endfor%}" name="newTags">

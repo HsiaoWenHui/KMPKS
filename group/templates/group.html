@@ -15,16 +15,16 @@
                     <h1 class="col-md-9  col-12">{{g_unit.name}}</h1>
                     {% if user == g_unit.owner%}
                         <div class="col-md-3">
-                            <a class="btn btn-outline-dark card-button"  href="edit">Edit Group</a>
+                            <a class="btn btn-outline-dark card-button"  href="edit">編輯群組</a>
                         </div>
                     {% elif g_unit.privacy == 1 %}
                         {% if state == 1 %}
                             <div class="col-md-3">
-                                <a class="btn btn-outline-dark card-button"  href="/group/{{g_unit.id}}/cancel">Cancel application</a>
+                                <a class="btn btn-outline-dark card-button"  href="/group/{{g_unit.id}}/cancel">取消申請</a>
                             </div>
                         {% elif state == 2%}
                         <div class="col-md-3">
-                            <a class="btn btn-outline-dark card-button"  href="/group/{{g_unit.id}}/join">Join this Group</a>
+                            <a class="btn btn-outline-dark card-button"  href="/group/{{g_unit.id}}/join">加入群組</a>
                         </div>
                         {%endif%}
                     {% endif %}
@@ -35,7 +35,7 @@
                 <div class="row contents">
                     <div class="col-12 group-section">
                         <span class="caption section-title">
-                            <h2>Announcement</h2>
+                            <h2>群組公告</h2>
                         </span>
                         <div id="content"class="embed-responsive-item"x  >
                             {{g_unit.announcement|safe}}
@@ -124,11 +124,11 @@
                     </p>
                 </div>
                 <p>
-                    <a href="/group/{{g_unit.id}}/allmembers/" class="more"> >See All Member <span class="icon-keyboard_arrow_right"></span></a>
+                    <a href="/group/{{g_unit.id}}/allmembers/" class="more"> >查看所有成員 <span class="icon-keyboard_arrow_right"></span></a>
                 </p>
                 {% if g_unit.owner != user and state == 0 %}
                 <p>
-                    <a href="/group/{{g_unit.id}}/{{m.memberID.id}}/leaveGroup/" onclick="return deleteAlert()" class="more">Leave the group<span class="icon-keyboard_arrow_right"></span></a>
+                    <a href="/group/{{g_unit.id}}/{{m.memberID.id}}/leaveGroup/" onclick="return deleteAlert()" class="more">離開群組<span class="icon-keyboard_arrow_right"></span></a>
                 </p>
                 {% endif %}
                 <hr>
@@ -149,7 +149,7 @@
             
             <div class="chatbox chatbox22 chatbox--tray">
                 <div class="chatbox__title">
-                    <h5><a href="javascript:void()">Leave a message</a></h5>
+                    <h5><a href="javascript:void()">聊天室</a></h5>
                     <button class="chatbox__title__close">
                         <span>
                             <svg viewBox="0 0 12 12" width="12px" height="12px">

@@ -18,6 +18,7 @@ def personalIndex(request,index):
         article_list=article.objects.filter(author=owner.id)
         article_amount=len(article_list)
         
+      
         return render(request, 'personal.html',locals())
     else:
         return HttpResponseRedirect('/accounts/login')

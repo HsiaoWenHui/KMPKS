@@ -79,10 +79,10 @@
     <br>
   <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-      <a class="nav-item nav-link active" id="nav-intro-tab" data-toggle="tab" href="#nav-intro" role="tab" aria-controls="nav-intro" aria-selected="true">Intro</a>
-      <a class="nav-item nav-link" id="nav-member-tab" data-toggle="tab" href="#nav-member" role="tab" aria-controls="nav-member" aria-selected="false">Member</a>
-      <a class="nav-item nav-link" id="nav-category-tab" data-toggle="tab" href="#nav-category" role="tab" aria-controls="nav-category" aria-selected="false">Category</a>
-      <a class="nav-item nav-link" id="nav-article-tab" data-toggle="tab" href="#nav-article" role="tab" aria-controls="nav-article" aria-selected="false">Article</a>
+      <a class="nav-item nav-link active" id="nav-intro-tab" data-toggle="tab" href="#nav-intro" role="tab" aria-controls="nav-intro" aria-selected="true">群組介紹</a>
+      <a class="nav-item nav-link" id="nav-member-tab" data-toggle="tab" href="#nav-member" role="tab" aria-controls="nav-member" aria-selected="false">成員管理</a>
+      <a class="nav-item nav-link" id="nav-category-tab" data-toggle="tab" href="#nav-category" role="tab" aria-controls="nav-category" aria-selected="false">分類管理</a>
+      <a class="nav-item nav-link" id="nav-article-tab" data-toggle="tab" href="#nav-article" role="tab" aria-controls="nav-article" aria-selected="false">文章管理</a>
     </div>
   </nav>
   
@@ -172,10 +172,10 @@
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Username</th>
+              <th scope="col">名稱</th>
               {% if e_group.owner == user%}
-              <th scope="col">state</th>
-              <th scope="col">remove</th>
+              <th scope="col">狀態</th>
+              <th scope="col">移除</th>
               {% endif%}
             </tr>
           </thead>
@@ -195,7 +195,7 @@
                 <td>已加入</td>
               {% endif %}
               {% if m.memberID != e_group.owner%}
-                <td><a href="/group/{{e_group.id}}/{{m.memberID.id}}/leaveGroup/" onclick="return delete_member_Alert()">remove</a></td>
+                <td><a href="/group/{{e_group.id}}/{{m.memberID.id}}/leaveGroup/" onclick="return delete_member_Alert()">移除</a></td>
               {% endif %}
             {% endif %}
             </tr>

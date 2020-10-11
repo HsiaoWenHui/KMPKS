@@ -68,11 +68,11 @@
 
 
             <div class="pt-5">
-                    <p> Categories:
+                    <p> 分類:
                         {% for c in categories %}  
                         <a href="/article/category/{{c.id}}">{{c.name}}</a>,
                         {% endfor %}
-                        Tags: 
+                        標籤: 
                         {% for t in tags%}
                         <a href="/article/tags/{{t.id}}">#{{t.name}}</a>,
                         {% endfor %}
@@ -82,7 +82,7 @@
 
                   <div class="pt-5">
                     <div class="section-title">
-                      <h2 class="mb-5">{{comment_count}} Comments</h2>
+                      <h2 class="mb-5">{{comment_count}} 則留言</h2>
                     </div>
                     <ul class="comment-list">
                       {% for c in comments%}
@@ -102,8 +102,8 @@
                             <form action="/article/{{a_unit.id}}/"method="Post" id="reply_message{{c.id}}">
                               {% csrf_token %}
                               <p>
-                                <a class="reply" style="cursor: pointer;" id="{{c.id}}"onclick="reply({{c.id}});">Reply</a> 
-                                <a href="/article/{{a_unit.id}}/{{c.id}}/delete/" class="reply">Delete</a>
+                                <a class="reply" style="cursor: pointer;" id="{{c.id}}"onclick="reply({{c.id}});">回覆</a> 
+                                <a href="/article/{{a_unit.id}}/{{c.id}}/delete/" class="reply">刪除留言</a>
                               </p>
                             </form>
                             
@@ -124,7 +124,7 @@
                               <div class="meta">{{cc.created_at}}</div>
                               <p>{{cc.content}}</p>
                               {% if user == u_unit %}
-                              <p><a href="/article/{{a_unit.id}}/{{cc.id}}/delete/" class="reply">Delete</a></p>
+                              <p><a href="/article/{{a_unit.id}}/{{cc.id}}/delete/" class="reply">刪除留言</a></p>
                             
                               {%endif%}
                             </div>
@@ -141,17 +141,17 @@
                     
                     <div class="comment-form-wrap pt-5">
                       <div class="section-title">
-                        <h2 class="mb-2">Leave a comment</h2>
+                        <h2 class="mb-2">留言</h2>
                       </div>
 
                       <form action="/article/{{a_unit.id}}/" method="post">
                         {% csrf_token %}
                         <div class="form-group">
                 
-                          <textarea placeholder="Balabala" name="message" id="message" cols="30" rows="10" class="form-control" style="height: 200px; border-color:black;"></textarea>
+                          <textarea name="message" id="message" cols="30" rows="10" class="form-control" style="height: 200px; border-color:black;"></textarea>
                         </div>
                         <div class="form-group">
-                          <input type="submit" value="Post Comment" class="btn btn-outline-dark">
+                          <input type="submit" value="發布留言" class="btn btn-outline-dark">
                         </div>
       
                       </form>

@@ -117,8 +117,9 @@
           <input type="hidden" name="newCategory">
         </div>
       </div>
+      
+    <small class="col-12">作者透過分類將自己文章分類並可透過分類尋找作者相同分類的文章</small>
     </div>
-
     <div class="form-group">
       <label>內文</label>
       <textarea id="id_content" placeholder="Balabala" name="newContent" autofocus></textarea>
@@ -126,11 +127,12 @@
     </div>
 
     <div class="form-group">
-      <label for="tags">Tags:(最多五項)</label>
+      <label for="tags">標籤:(最多五項) </label>
       <div class="form-control tags" id="tags">
         <input type="text" class="labelinput">
         <input type="hidden" name="newTags" id="newTags">
       </div>
+      <small>可以透過標籤尋找系統中同標籤文章</small>
     </div>
 
     <button id="submit" type="submit" class="btn btn-outline-dark" onClick= " validateForm(this.form); return false">發布</button>
