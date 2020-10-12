@@ -43,7 +43,7 @@ function checkUsername(control){
         alert("錯誤：請輸入username ");
         return (false);
     }
-    if(username.length>20 ||username.length<7){
+    if(username.length>20 ||username.length<6){
         alert("錯誤：username 最長20字元 最短6字元");
         return (false);
     }
