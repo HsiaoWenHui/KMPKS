@@ -209,6 +209,8 @@ def leaveGroup(request,groupIndex,memberIndex):
         if not application:
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         else:
+            articleGroup.objects.filter(groupID=g_unit,articleID__author=m_unit).delete()
+            articleGroup_category.objects.filter(categoryID__group=g_unit,articleID__author=m_unit).delete()
             application.delete()
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         
