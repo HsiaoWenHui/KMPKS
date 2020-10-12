@@ -133,6 +133,7 @@ def removeGroup(request,index):
         de_group=group.objects.get(id=index)
         member_list=member.objects.filter(groupID=de_group)
         article_list=articleGroup.objects.filter(groupID=de_group)
+        
         print("呼叫刪除功能")
         if user.id == de_group.owner.id:
             for i in article_list:

@@ -104,7 +104,7 @@
           <div class="col-md-4 col-sm-12">
             <label for="exampleFormControlSelect1">或者新增分類</label>
             <div class="form-control tags" id="newCategory" >
-              <input type="text" class="labelinput" placeholder="輸入分類名稱">
+              <input type="text" class="labelinput" placeholder="輸入名稱後按enter">
               <input type="hidden" name="newCategory">
             </div>
           </div>
@@ -116,7 +116,7 @@
           <div class="form-group">
             <label for="tags">標籤: (最多五項)</label>
             <div class="form-control tags" id="tags">
-              <input type="text" class="labelinput">
+              <input type="text" class="labelinput"placeholder="輸入名稱後按enter">
               <input type="hidden" value="{% for t in tags%}{{t.name}},{%endfor%}" name="newTags">
             </div>
           </div>
