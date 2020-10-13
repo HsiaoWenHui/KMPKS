@@ -24,21 +24,35 @@ def home(request):
         
         #找最受歡迎的TAG，參考https://blog.csdn.net/qq_25046261/article/details/79178462
         tag_list = tag.objects.annotate(num_posts=Count('article')).order_by("-num_posts")[:4]
-        tag_article_list=[]
-        for t in tag_list:
-            temp_list=article.objects.filter(tags=t).order_by('-like')[:3]
-            for i in temp_list:
-                tag_article_list.append(i)
+        tag0=getAritcle(tag_list[0])
+        tag1=getAritcle(tag_list[1])
+        tag2=getAritcle(tag_list[2])
+        tag3=getAritcle(tag_list[3])
+        
+                
+        # tag_article_list=[]
+        # for t in tag_list:
+        #     temp_list=article.objects.filter(tags=t).order_by('-like')[:3]
+        #     for i in temp_list:
+        #         tag_article_list.append(i)
                 
         # t_a_plainText=getContentText(tag_article_list)
-        t_a_img_list=getImg(tag_article_list)
+        t_a_img_list_0=getImg(tag0)
+        t_a_img_list_1=getImg(tag1)
+        t_a_img_list_2=getImg(tag2)
+        t_a_img_list_3=getImg(tag3)
 
         return render(request, 'home/home.html',locals())
     else:
         return HttpResponseRedirect('/accounts/login')
 
         
-
+def getAritcle(tag):
+    tag_list=[]
+    temp=article.objects.filter(tags=tag).order_by('-like')[:3]
+    for a in temp:
+        tag_list.append(a)
+    return tag_list
 def getImg(img):
     img_list=[]
     if not img:
