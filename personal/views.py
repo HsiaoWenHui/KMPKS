@@ -30,7 +30,7 @@ def editProfile(request):
         if  request.method=="POST":
             nName=request.POST['newName']
             user.name=nName
-            request.user.email=request.POST['newEmail']
+            # request.user.email=request.POST['newEmail']
             #request.user.password=request.POST['newPassword']
             user.intro=request.POST['newIntro']
             user.save()
@@ -39,7 +39,7 @@ def editProfile(request):
             return HttpResponseRedirect('/personal/'+str(user.id))
         else:
             name=user.name
-            email=request.user.email
+            # email=request.user.email
             intro=user.intro
             return render(request, 'editProfile.html',locals())
     else:
