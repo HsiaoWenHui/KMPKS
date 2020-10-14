@@ -367,7 +367,7 @@ def search(request):
             tag_keyword=tag.objects.get(name=keyword)
         except:
             tag_keyword=None
-        search_temp=article.objects.filter(Q(tags=tag_keyword)|Q(title__contains=keyword)|Q(content__contains=keyword))
+        search_temp=article.objects.filter(Q(tags=tag_keyword)|Q(title__contains=keyword)|Q(content__contains=keyword)|Q(author__name__contains=keyword))
         search_result=search_temp.filter(private=0)
         return render(request, 'search.html',locals())
         

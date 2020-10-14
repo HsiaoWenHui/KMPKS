@@ -351,7 +351,7 @@ def search(request):
     if 'group_keyword' in request.GET:
         user=UserProfile.objects.get(user=request.user) 
         keyword=request.GET["group_keyword"]
-        search_result=group.objects.filter(Q(name__contains=keyword)|Q(intro__contains=keyword))
+        search_result=group.objects.filter(Q(name__contains=keyword)|Q(intro__contains=keyword)|Q(owner__name__contains=keyword))
         return render(request, 'group_search.html',locals())
     else:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
@@ -372,7 +372,7 @@ def article_search(request,index):
         except:
             tag_keyword=None
         search_temp=article.objects.filter(id__in=article_list)
-        search_result=search_temp.filter(Q(tags=tag_keyword)|Q(title__contains=keyword)|Q(content__contains=keyword))
+        search_result=search_temp.filter(Q(tags=tag_keyword)|Q(title__contains=keyword)|Q(content__contains=keyword)|Q(author__name__contains=keyword))
         # search_result=temp.filter(Q(private=0)|Q(private=2))
         return render(request, 'search.html',locals())
     else:
