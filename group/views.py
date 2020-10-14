@@ -59,6 +59,7 @@ def groupIndex(request,group_id):
     msg=message.objects.filter(group=g_unit)
     non_classified_article=[]
     classified_article=[]
+    new_share_article=articleGroup.objects.filter(groupID=g_unit).order_by('-id')[:6]
     for i in article_category:
         classified_article.append(i.articleID)
     for i in article_list:
