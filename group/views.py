@@ -5,6 +5,7 @@ from article.models import article,tag
 from django.http import HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt 
 from django.db.models import Q
+from django.db.models.aggregates import Count
 # Create your views here.
 def allGroup(request):
     group_list=group.objects.all()
@@ -47,7 +48,6 @@ def addGroup(request):
             return render(request, 'add_group.html',locals())
     else:
         return HttpResponseRedirect('/accounts/login')
-
 
 def groupIndex(request,group_id):
     g_unit=group.objects.get(id=group_id)
@@ -177,16 +177,7 @@ def cancelGroup(request,index):
     else:
         return HttpResponseRedirect('/accounts/login')
 
-def allmembers(request,index):
-    if request.user.is_authenticated:
-        user=UserProfile.objects.get(user=request.user)
-        g_unit=group.objects.get(id=index)
-        member_list=member.objects.filter(groupID=g_unit)
-        number=0
 
-        return render(request, 'all_members.html',locals())
-    else:
-        return HttpResponseRedirect('/accounts/login')
 
 def addMember(request,groupIndex,memberIndex):
     if request.user.is_authenticated:
@@ -305,7 +296,6 @@ def delCategory(request,groupIndex,categoryIndex):
     else:
         return HttpResponseRedirect('/accounts/login')
 
-
 def categories(request,groupID,categoryID):
     user=UserProfile.objects.get(user=request.user)
     cate_unit=group_category.objects.get(id=categoryID)
@@ -315,9 +305,6 @@ def categories(request,groupID,categoryID):
         cate_articles.append(c.articleID)
     
     return render(request, 'category.html',locals())
-
-
-
 
 def delArticle(request,groupIndex,articleIndex):
     if request.user.is_authenticated:
@@ -340,7 +327,6 @@ def delArticle(request,groupIndex,articleIndex):
     else:
         return HttpResponseRedirect('/accounts/login')
 
-
 def chat(request,group_id):
     user=UserProfile.objects.get(user=request.user)
     name=user.name
@@ -351,10 +337,11 @@ def search(request):
     if 'group_keyword' in request.GET:
         user=UserProfile.objects.get(user=request.user) 
         keyword=request.GET["group_keyword"]
-        search_result=group.objects.filter(Q(name__contains=keyword)|Q(intro__contains=keyword)|Q(owner__name__contains=keyword))
+        search_result=group.objects.filter(Q(name__icontains=keyword)|Q(intro__icontains=keyword)|Q(owner__name__icontains=keyword))
         return render(request, 'group_search.html',locals())
     else:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
 def article_search(request,index):
     if "group_article_keyword" in request.GET:
         user=UserProfile.objects.get(user=request.user)
@@ -372,11 +359,38 @@ def article_search(request,index):
         except:
             tag_keyword=None
         search_temp=article.objects.filter(id__in=article_list)
-        search_result=search_temp.filter(Q(tags=tag_keyword)|Q(title__contains=keyword)|Q(content__contains=keyword)|Q(author__name__contains=keyword))
+        search_result=search_temp.filter(Q(tags=tag_keyword)|Q(title__icontains=keyword)|Q(content__icontains=keyword)|Q(author__name__icontains=keyword))
         # search_result=temp.filter(Q(private=0)|Q(private=2))
         return render(request, 'search.html',locals())
     else:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def dashboard(request,index):
-    return render(request, 'dashboard.html',locals())
+    if request.user.is_authenticated:
+        user=UserProfile.objects.get(user=request.user)
+        g_unit=group.objects.get(id=index)
+        member_list=member.objects.filter(groupID=g_unit) #群組成員
+        article_list=articleGroup.objects.filter(groupID=g_unit) #群組文章
+        cate_list=group_category.objects.filter(group=g_unit) #群組分類
+        m_tuples=[]
+        for i in member_list:
+            m=[i.memberID.name]
+            sum_article=articleGroup.objects.filter(groupID=g_unit,articleID__author=i.memberID).count()
+            m.append(sum_article)
+            
+            for c in cate_list:
+                c_count=articleGroup_category.objects.filter(categoryID=c,articleID__author=i.memberID).count()
+                m.append(c_count)
+            m_tuples.append(m)
+
+        c_tuples =[]
+        for i in cate_list:
+            c=[i.name]
+            sum_article=articleGroup_category.objects.filter(categoryID=i).count()
+            c.append(sum_article)
+            contrib_people=articleGroup_category.objects.filter(categoryID=i).values('articleID__author').annotate(Count('articleID__author',distinct=True)).count()
+            c.append(contrib_people)
+            c_tuples.append(c)        
+        return render(request, 'dashboard.html',locals())
+    else:
+        return HttpResponseRedirect('/accounts/login')

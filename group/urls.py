@@ -18,7 +18,7 @@ urlpatterns = [
   url(r'^(\d+)/(\d+)/leaveGroup/$',views.leaveGroup),
   url(r'^(\d+)/(\d+)/delArticle/$',views.delArticle),
   url(r'^(\d+)/cancel/$',views.cancelGroup),
-  url(r'^(\d+)/allmembers/$',views.allmembers),
+  # url(r'^(\d+)/allmembers/$',views.allmembers),
   url(r'^(\d+)/edit/addCategory/$',views.addCategory),
   url(r'^(\d+)/edit/updateCategory/$',views.updateCategory),
   url(r'^(\d+)/(\d+)/delCategory/$',views.delCategory),
