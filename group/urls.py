@@ -9,6 +9,7 @@ urlpatterns = [
   path('add/',views.addGroup),
   path('search/',views.search),
   url(r'^(\d+)/search/$',views.article_search),
+  url(r'^(\d+)/dashboard/$',views.dashboard),
   url(r'^(?P<group_id>[^/]+)/$',views.groupIndex),
   url(r'^(\d+)/remove/$',views.removeGroup),
   url(r'^(\d+)/edit/$',views.editGroup),

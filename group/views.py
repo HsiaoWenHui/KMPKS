@@ -377,3 +377,6 @@ def article_search(request,index):
         return render(request, 'search.html',locals())
     else:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def dashboard(request,index):
+    return render(request, 'dashboard.html',locals())
