@@ -5,7 +5,10 @@
 
 <div class="container">
     <div class="section-title">
-        <h3 class="text-left">文章搜尋 : {{keyword}}
+        <h3 class="text-left">
+        {% if search_way == 2%} 所有文章
+        {% else %}文章搜尋 : {{keyword}}
+        {% endif %}
         {% if search_way == 1 %}
          於 {{g_unit.name}} 群組
         {% endif %}

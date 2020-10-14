@@ -373,3 +373,9 @@ def search(request):
         
     else:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def all(request):
+    user=UserProfile.objects.get(user=request.user)
+    search_result=article.objects.filter(private=0).order_by('-pubtime')
+    search_way=2 #指所有文章
+    return render(request, 'search.html',locals())

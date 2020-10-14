@@ -5,6 +5,7 @@ from article import views
 
 urlpatterns = [
   # url(r'^(\d+)/$',views.articleIndex),
+  path('all/',views.all),
   url(r'^(\d+)/$',views.articleIndex),
   # url(r'^content/(\d+)/$',views.articleView.as_view()),
   url(r'^(\d+)/edit/$',views.editArticle),

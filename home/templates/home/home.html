@@ -83,7 +83,7 @@
                   <a href="/article/{{recentPost_list.0.id}}">
                     <img src={{img_list.0}} alt="Image" class="img-fluid"></a>
                   <h2><a href="/article/{{recentPost_list.0.id}}">{{recentPost_list.0.title}}</a></h2>
-                  <div id="content" class="post-content"> {{plainTex_list.0|safe}}</div>
+                  <!-- <div id="content" class="post-content"> {{plainTex_list.0|safe}}</div> -->
                  
                   <div class="post-meta">
                     <span class="d-block"><a href="/personal/{{recentPost_list.0.author.id}}">作者：{{recentPost_list.0.author.name}}</a> </span>
@@ -144,9 +144,11 @@
               </div>
             </div>
               {%endfor%}
-            
-            
+            <p class="text-center">
+              <a href="/article/all" class="more"> >查看所有文章 <span class="icon-keyboard_arrow_right"></span></a>
+            </p>
           </div>
+          
         </div>
       </div>
     </div>
