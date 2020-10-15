@@ -5,6 +5,7 @@ from personal.models import UserProfile
 from article.models import article,tag
 from group.models import member,group
 from django.db.models.aggregates import Count
+
 def getHotKeyword(request):
     tag_list = tag.objects.annotate(num_posts=Count('article')).order_by("-num_posts")[:10]
     member_list=member.objects.values("groupID__id").annotate(Count('memberID'))

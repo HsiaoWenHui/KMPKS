@@ -6,9 +6,32 @@ from article.models import article,tag
 from bs4 import BeautifulSoup
 import random
 from django.db.models.aggregates import Count
+from personal.models import UserProfile
 
+from django.contrib.auth.models import User
+import csv
 def index(request):
-
+    with open('./member.csv', mode='r') as csv_file:
+            reader = csv.reader(csv_file)
+            for line in reader:
+                if line is not None:
+                    name = line[0]
+                    username = line[1]
+                    password = line[2]
+                    email=username
+                    
+                    try:
+                        user=User.objects.get(username=username)
+                    except:
+                        user=None
+                
+                    if user!=None:
+                        continue
+                    else:
+                        newUser=User.objects.create_user(username,username,password)
+                        newUser.save()
+                        unit=UserProfile.objects.create(user=newUser,name=name,intro="")
+                        unit.save()
     return render(request, 'home/index.html',locals())
 
  
