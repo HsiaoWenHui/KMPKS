@@ -265,9 +265,9 @@ def updateCategory(request,index):
                     if int(c) not in c_oldlist:
                         c_unit=group_category.objects.get(id=int(c))
                         ac_unit=articleGroup_category.objects.create(articleID=a_unit,categoryID=c_unit)
-            else:#歸為未分類
-                c_unit=group_category.objects.get(group=g_unit,name="未分類")
-                ac_unit=articleGroup_category.objects.create(articleID=a_unit,categoryID=c_unit)
+            # else:#歸為未分類
+            #     c_unit=group_category.objects.get(group=g_unit,name="未分類")
+            #     ac_unit=articleGroup_category.objects.create(articleID=a_unit,categoryID=c_unit)
 
             for c in c_oldlist:#如果舊有的分類不在更新分類中代表該分類被移除
                 if str(c) not in c_newlist:
