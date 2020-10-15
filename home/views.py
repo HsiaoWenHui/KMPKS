@@ -11,7 +11,7 @@ from personal.models import UserProfile
 from django.contrib.auth.models import User
 import csv
 def index(request):
-    with open('./member.csv', mode='r') as csv_file:
+    with open('member.csv', mode='r') as csv_file:
             reader = csv.reader(csv_file)
             for line in reader:
                 if line is not None:
