@@ -23,7 +23,8 @@
         {% for g in group_list %}
         <div class="col-lg-3 card-block">
             <div class="card" >
-                <img src='/static/img/group1.jpg' alt="AVATAR" class="card-img-top">
+            
+                <img src='/static/img/group{{rand|random}}.jpg' alt="AVATAR" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title">{{g.name}}</h5>
                     <p class="card-text">{{g.intro}}</p>

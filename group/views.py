@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt 
 from django.db.models import Q
 from django.db.models.aggregates import Count
+import random
 # Create your views here.
 def allGroup(request):
     group_list=group.objects.all()
@@ -14,6 +15,7 @@ def allGroup(request):
     applyingGroup=member.objects.filter(memberID=user,state=1)
     userGroup_list=[]
     applyingGroup_list=[]
+    rand=[1,2,3]
     for i in userGroup:
         userGroup_list.append(i.groupID)
     for i in applyingGroup:
