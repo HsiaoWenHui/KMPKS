@@ -1,7 +1,7 @@
 from django.shortcuts import render,HttpResponse
 from django.contrib import auth
 from django.http import HttpResponseRedirect
-from personal.models import UserProfile
+from group.models import group
 from article.models import article,tag
 from bs4 import BeautifulSoup
 import random
@@ -39,6 +39,9 @@ def index(request):
 def home(request):
     if request.user.is_authenticated:
         user=UserProfile.objects.get(user=request.user)
+        total_user=UserProfile.objects.all()
+        total_article=article.objects.all()
+        total_group=group.objects.all().count()
         popuPost_list=article.objects.filter(private=0).order_by('-like')[:4]
         recentPost_list=article.objects.filter(private=0).order_by('-pubtime')[:4]
         #找最新文章和最受歡迎文章
@@ -53,13 +56,6 @@ def home(request):
         tag3=getAritcle(tag_list[3])
         
                 
-        # tag_article_list=[]
-        # for t in tag_list:
-        #     temp_list=article.objects.filter(tags=t).order_by('-like')[:3]
-        #     for i in temp_list:
-        #         tag_article_list.append(i)
-                
-        # t_a_plainText=getContentText(tag_article_list)
         t_a_img_list_0=getImg(tag0)
         t_a_img_list_1=getImg(tag1)
         t_a_img_list_2=getImg(tag2)
