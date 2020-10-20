@@ -101,3 +101,10 @@ def getContentText(c):
             i.extract()
         text_list.append(soup.prettify())
     return text_list
+
+def faq(request):
+    if request.user.is_authenticated:
+        user=UserProfile.objects.get(user=request.user)
+        return render(request, 'home/FAQ.html',locals())
+    else:
+        return HttpResponseRedirect('/accounts/login')
