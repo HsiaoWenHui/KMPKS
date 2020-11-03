@@ -13,14 +13,9 @@
       var editor = new Simditor({
           textarea: $("#id_content"),
           placeholder: "在此撰寫公告",
-          toolbar: [ 'title', 'bold', 'italic', 'underline', 'strikethrough', 'color', '|', 'ol', 'ul', 'blockquote','hr','|','indent','outdent','alignment', 'code', 'table', 'link','image'],
-          pasteImage:true,
+          toolbar: [ 'title', 'bold', 'italic', 'underline', 'strikethrough', 'color', '|', 'ol', 'ul', 'blockquote','hr','|','indent','outdent','alignment', 'code', 'table', 'link'],
           
-          upload: {
-              url: '/simditor/upload/',
-              fileKey: 'upload',
-              image_size: 1024 * 1024 * 4   
-          },
+          
         });
         
     });
