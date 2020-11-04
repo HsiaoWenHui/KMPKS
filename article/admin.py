@@ -10,7 +10,7 @@ class articleAdmin(admin.ModelAdmin):
     pass
 
 class commentAdmin(admin.ModelAdmin):
-    list_display=('post','created_by','content')
+    list_display=('post','created_by','created_at','content')
 
 admin.site.register(models.article, articleAdmin)
 admin.site.register(models.comment,commentAdmin)
