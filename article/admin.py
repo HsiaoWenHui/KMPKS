@@ -5,10 +5,12 @@ from article import models
 # admin.site.register(models.article)
 admin.site.register(models.tag)
 admin.site.register(models.category)
-admin.site.register(models.comment)
 # admin.site.register(models.Post)
 class articleAdmin(admin.ModelAdmin):
     pass
 
+class commentAdmin(admin.ModelAdmin):
+    list_display=('post','created_by','content')
 
 admin.site.register(models.article, articleAdmin)
+admin.site.register(models.comment,commentAdmin)
