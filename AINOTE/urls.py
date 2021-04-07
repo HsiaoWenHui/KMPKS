@@ -24,6 +24,9 @@ from simditor.views import upload_handler
 
 from django.views import generic
 from django.conf.urls.static import static
+
+from home import views #維護需要
+
 class ImageUploadView(generic.View):
     """ImageUploadView."""
 
@@ -34,13 +37,16 @@ class ImageUploadView(generic.View):
         return upload_handler(request)
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('home.urls')),
+    
+   #維護中暫不開放
+    #path('', include('home.urls')),
+    #path('accounts/',include('login.urls')),
+    #path('personal/',include('personal.urls')),
+    #path('article/',include('article.urls')),
+    #path('group/',include('group.urls')),
+    url(r'^',views.maintenance), #全導到維護頁面
    
-    path('accounts/',include('login.urls')),
-    path('personal/',include('personal.urls')),
-    path('article/',include('article.urls')),
-    path('group/',include('group.urls')),
-    # url(r'^markdownx/', include('markdownx.urls')),
+
     
     url(r'^simditor/upload', csrf_exempt(ImageUploadView.as_view())),
 ]

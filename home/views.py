@@ -36,7 +36,9 @@ def index(request):
     #                     unit.save()
     return render(request, 'home/index.html',locals())
 
- 
+#維護
+def maintenance(request):
+    return render(request, 'home/maintenance.html',locals())
 
 def home(request):
     if request.user.is_authenticated:
