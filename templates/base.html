@@ -131,7 +131,12 @@
             </div>
             <div class="col-6 row text-right justify-content-end title-right">
               
-              <div class="hello" style="font-size: 23px;"> Hi, {{user.name}}</div>
+              <div class="hello" style="font-size: 23px;"> Hi, 
+                {% if user is None %} Visitor
+                {% else %}{{user.name}}
+                {% endif %}
+              
+              </div>
               <span class="text-right"style="font-size:30px;cursor:pointer " onclick="openNav()"><img src="{%static "img/search.png" %}" style="margin-bottom:8px;"></span>
               <a href="#" class="  d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black text-right"style="padding:8px; padding-right:0;"><span
                   class="icon-menu h3"></span></a>
@@ -156,7 +161,11 @@
                   <a href="/home/" class="nav-link text-left">首頁</a>
                 </li>
                 <li>
+                  {% if user is None%}
+                  <a href="/accounts/login/" class="nav-link text-left">個人頁面</a>
+                  {% else %}
                   <a href="/personal/{{user.id}}/" class="nav-link text-left">個人頁面</a>
+                  {% endif %}
                 </li>
                 <li>
                   <a href="/group/mygroups/" class="nav-link text-left">個人群組</a>
@@ -173,7 +182,11 @@
                   <a href="/group/add/" class="nav-link text-left">新增群組</a>
                 </li>
                 <li><a href="/FAQ/" class="nav-link text-left">FAQ</a></li>
+                {% if user is None %}
+                <li><a href="/accounts/login/" class="nav-link text-left">登入</a></li>
+                {% else %}
                 <li><a href="/accounts/logout/" class="nav-link text-left">登出</a></li>
+                {% endif %}
                 
               </ul>                                                                                                                                                                                                                                                                                         
             </nav>
@@ -225,7 +238,6 @@
             
     </script>
     {% endif %}
-  
     <!-- loader -->
     <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#ff5e15"/></svg></div>
 

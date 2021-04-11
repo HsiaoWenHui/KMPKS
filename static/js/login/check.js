@@ -18,6 +18,14 @@ function validateForm(form)
     return(true);
 
 }
+function validateForm_change_password(form){
+    if (!checkPassword(form.new_password,form.confirm_password)) {
+       
+        return false;
+    }
+    form.submit();
+    return(true);
+}
 function checkEmail(email){
     index = email.indexOf ('@', 0);		// 尋找 @ 的位置，0 代表開始尋找的起始位置
     if (email.length==0) {
@@ -84,7 +92,7 @@ function checkPassword(control_1,control_2){
     return true
 }
 var check = function() {
-    if (document.getElementById('password').value ==
+    if (document.getElementById('new_password').value ==
         document.getElementById('confirm_password').value) {
         document.getElementById('message').style.color = 'green';
         document.getElementById('message').innerHTML = 'matching';

@@ -23,6 +23,7 @@ from django.contrib.auth.models import User
 from personal.models import UserProfile
 
 from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
 
 def login(request):
     if request.user.is_authenticated:
@@ -40,7 +41,7 @@ def login(request):
 
 def logout(request):
     auth.logout(request)
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def register(request):
     if request.method=="POST":
@@ -69,3 +70,34 @@ def register(request):
 
     else:
         return render(request, 'registration/regis.html')
+
+def change_password(request):
+    # if request.method == 'POST':
+    #     form = PasswordChangeForm(request.user, request.POST)
+    #     if form.is_valid():
+    #         user = form.save()
+    #         update_session_auth_hash(request, user)  # Important!
+    #         messages.success(request, 'Your password was successfully updated!')
+    #         return redirect('change_password')
+    #     else:
+    #         messages.error(request, 'Please correct the error below.')
+    # else:
+    #     form = PasswordChangeForm(request.user)
+    # return render(request, 'registration/change_password.html', {
+    #     'form': form
+    # })
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            user=User.objects.get(username=request.user.username)
+            if user.check_password(request.POST['old_password']):
+                user.set_password(request.POST['new_password'])
+                user.save()
+                update_session_auth_hash(request, user)  # Important!
+                messages.success(request, 'Your password was successfully updated!')
+            else:
+                messages.error(request, 'Your old password was incorrect.')
+            return render(request, 'registration/change_password.html')
+        else:
+            return render(request, 'registration/change_password.html')
+    else:
+        return HttpResponseRedirect('/accounts/login')

@@ -9,19 +9,17 @@ from bs4 import BeautifulSoup
 # Create your views here.
 def personalIndex(request,index):
     if request.user.is_authenticated:
-        owner=UserProfile.objects.get(id=index)
         user=UserProfile.objects.get(user=request.user)
-        categories=category.objects.filter(creater=owner)
-        name=owner.name
-        intro=owner.intro
-        member_list=member.objects.filter(memberID=user)
-        article_list=article.objects.filter(author=owner.id)
-        article_amount=len(article_list)
-        
-      
-        return render(request, 'personal.html',locals())
     else:
-        return HttpResponseRedirect('/accounts/login')
+        user=None
+    owner=UserProfile.objects.get(id=index)
+    categories=category.objects.filter(creater=owner)
+    name=owner.name
+    intro=owner.intro
+    member_list=member.objects.filter(memberID=owner)
+    article_list=article.objects.filter(author=owner.id)
+    article_amount=len(article_list)
+    return render(request, 'personal.html',locals())
 
 def editProfile(request):
     if request.user.is_authenticated:
@@ -44,7 +42,6 @@ def editProfile(request):
             return render(request, 'editProfile.html',locals())
     else:
         return HttpResponseRedirect('/accounts/login')
-
 
 
 

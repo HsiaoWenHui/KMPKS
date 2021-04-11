@@ -7,7 +7,6 @@ from bs4 import BeautifulSoup
 import random
 from django.db.models.aggregates import Count
 from personal.models import UserProfile
-
 from django.contrib.auth.models import User
 import csv
 def index(request):
@@ -40,36 +39,69 @@ def index(request):
 def maintenance(request):
     return render(request, 'home/maintenance.html',locals())
 
+# def home(request):
+#     if request.user.is_authenticated:
+#         user=UserProfile.objects.get(user=request.user)
+#         total_user=UserProfile.objects.all()
+#         total_article=article.objects.all()
+#         total_group=group.objects.all().count()
+#         popuPost_list=article.objects.filter(private=0).order_by('-like')[:4]
+#         recentPost_list=article.objects.filter(private=0).order_by('-pubtime')[:4]
+#         #找最新文章和最受歡迎文章
+#         img_list=getImg(recentPost_list)
+#         plainTex_list=getContentText(recentPost_list)
+        
+#         #找最受歡迎的TAG，參考https://blog.csdn.net/qq_25046261/article/details/79178462
+#         tag_list = tag.objects.annotate(num_posts=Count('article')).order_by("-num_posts")[:4]
+#         tag0=getAritcle(tag_list[0])
+#         tag1=getAritcle(tag_list[1])
+#         tag2=getAritcle(tag_list[2])
+#         tag3=getAritcle(tag_list[3])
+        
+                
+#         t_a_img_list_0=getImg(tag0)
+#         t_a_img_list_1=getImg(tag1)
+#         t_a_img_list_2=getImg(tag2)
+#         t_a_img_list_3=getImg(tag3)
+
+#         return render(request, 'home/home.html',locals())
+#     else:
+#         return HttpResponseRedirect('/accounts/login')
 def home(request):
     if request.user.is_authenticated:
         user=UserProfile.objects.get(user=request.user)
-        total_user=UserProfile.objects.all()
-        total_article=article.objects.all()
-        total_group=group.objects.all().count()
-        popuPost_list=article.objects.filter(private=0).order_by('-like')[:4]
-        recentPost_list=article.objects.filter(private=0).order_by('-pubtime')[:4]
-        #找最新文章和最受歡迎文章
-        img_list=getImg(recentPost_list)
-        plainTex_list=getContentText(recentPost_list)
+ 
+    else:
+        user=None
+
+    total_user=UserProfile.objects.all()
+    total_article=article.objects.all()
+    total_group=group.objects.all().count()
+    popuPost_list=article.objects.filter(private=0).order_by('-like')[:4]
+    recentPost_list=article.objects.filter(private=0).order_by('-pubtime')[:4]
+    #找最新文章和最受歡迎文章
+    img_list=getImg(recentPost_list)
+    plainTex_list=getContentText(recentPost_list)
         
-        #找最受歡迎的TAG，參考https://blog.csdn.net/qq_25046261/article/details/79178462
-        tag_list = tag.objects.annotate(num_posts=Count('article')).order_by("-num_posts")[:4]
-        tag0=getAritcle(tag_list[0])
-        tag1=getAritcle(tag_list[1])
-        tag2=getAritcle(tag_list[2])
-        tag3=getAritcle(tag_list[3])
+    #找最受歡迎的TAG，參考https://blog.csdn.net/qq_25046261/article/details/79178462
+    tag_list = tag.objects.exclude(name="").annotate(num_posts=Count('article')).order_by("-num_posts")[:4]
+    
+    tag0=getAritcle(tag_list[0])
+    tag1=getAritcle(tag_list[1])
+    tag2=getAritcle(tag_list[2])
+    tag3=getAritcle(tag_list[3])
         
                 
-        t_a_img_list_0=getImg(tag0)
-        t_a_img_list_1=getImg(tag1)
-        t_a_img_list_2=getImg(tag2)
-        t_a_img_list_3=getImg(tag3)
+    t_a_img_list_0=getImg(tag0)
+    t_a_img_list_1=getImg(tag1)
+    t_a_img_list_2=getImg(tag2)
+    t_a_img_list_3=getImg(tag3)    
+    return render(request, 'home/home.html',locals())
 
-        return render(request, 'home/home.html',locals())
-    else:
-        return HttpResponseRedirect('/accounts/login')
 
-        
+
+
+
 def getAritcle(tag):
     tag_list=[]
     temp=article.objects.filter(tags=tag).order_by('-like')[:3]
@@ -107,6 +139,7 @@ def getContentText(c):
 def faq(request):
     if request.user.is_authenticated:
         user=UserProfile.objects.get(user=request.user)
-        return render(request, 'home/FAQ.html',locals())
+        
     else:
-        return HttpResponseRedirect('/accounts/login')
+        user=None
+    return render(request, 'home/FAQ.html',locals())

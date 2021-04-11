@@ -7,26 +7,38 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 from django.db.models.aggregates import Count
 import random
+
+from django.contrib import messages
 # Create your views here.
 def allGroup(request):
     group_list=group.objects.all()
-    user=UserProfile.objects.get(user=request.user)
-    userGroup=member.objects.filter(memberID=user,state=0)#列使用者所在的所有群組
-    applyingGroup=member.objects.filter(memberID=user,state=1)
-    userGroup_list=[]
-    applyingGroup_list=[]
     rand=[1,2,3]
-    for i in userGroup:
-        userGroup_list.append(i.groupID)
-    for i in applyingGroup:
-        applyingGroup_list.append(i.groupID)
+    if request.user.is_authenticated:
+        user=UserProfile.objects.get(user=request.user)
+        userGroup=member.objects.filter(memberID=user,state=0)#列使用者所在的所有群組
+        applyingGroup=member.objects.filter(memberID=user,state=1)
+        userGroup_list=[]
+        applyingGroup_list=[]
+        for i in userGroup:
+            userGroup_list.append(i.groupID)
+        for i in applyingGroup:
+            applyingGroup_list.append(i.groupID)
+ 
+    else:
+        user=None
+        userGroup_list=[]
+        applyingGroup_list=[]
+
     return render(request,"groups.html",locals())
 
 def mygroups(request):
-    user=UserProfile.objects.get(user=request.user)
-    member_list=member.objects.filter(memberID=user)
-    
-    return render(request,"myGroups.html",locals())
+    if request.user.is_authenticated: 
+        user=UserProfile.objects.get(user=request.user)
+        member_list=member.objects.filter(memberID=user)
+        
+        return render(request,"myGroups.html",locals())
+    else:
+        return HttpResponseRedirect('/accounts/login')
 
 def addGroup(request):
     if request.user.is_authenticated:
@@ -52,9 +64,15 @@ def addGroup(request):
         return HttpResponseRedirect('/accounts/login')
 
 def groupIndex(request,group_id):
+    if request.user.is_authenticated:
+        user=UserProfile.objects.get(user=request.user)
+        name=user.name
+        
+    else:
+        user=None
+        name="Visitor"
+
     g_unit=group.objects.get(id=group_id)
-    user=UserProfile.objects.get(user=request.user)
-    name=user.name
     article_list=articleGroup.objects.filter(groupID=g_unit) #群組內所有文章
     category_list=group_category.objects.filter(group=g_unit)#群組內所有分類
     article_category=articleGroup_category.objects.filter(categoryID__in=category_list)#群組內分類的文章關聯表
@@ -67,34 +85,36 @@ def groupIndex(request,group_id):
     for i in article_list:
         if i.articleID not in classified_article:
             non_classified_article.append(i.articleID)
-    if request.user.is_authenticated:
-        
-        if g_unit.privacy == 1:#在公開群組的情況下，使用者為該群組成員則state=0 否則為1
-            member_list=member.objects.filter(groupID=g_unit) 
-            a_member=len(member_list)
-            a_article=len(article_list)
+    
+    
+    if g_unit.privacy == 1:#在公開群組的情況下，使用者為該群組成員則state=0 否則為1
+        member_list=member.objects.filter(groupID=g_unit) 
+        a_member=len(member_list)
+        a_article=len(article_list)
             
-            for m in member_list:
-                if m.memberID == user and m.state == 0: #如果使用者在成員列表中 且 已加入 則 state=0
+        for m in member_list:
+            if m.memberID == user and m.state == 0: #如果使用者在成員列表中 且 已加入 則 state=0
                     state=0
-                elif m.memberID == user and m.state == 1:#如果使用者在成員列表中 且 申請中 則 state=1
+            elif m.memberID == user and m.state == 1:#如果使用者在成員列表中 且 申請中 則 state=1
                     state=1
-                else: #如果都沒有在列表中 則代表尚未申請加入群組 則 state=2
+            else: #如果都沒有在列表中 則代表尚未申請加入群組 則 state=2
                     state=2
-            return render(request, 'group.html',locals())
-        else:
-            member_list=member.objects.filter(groupID=g_unit,state=0) #0:已加入 1:申請中
-            a_member=len(member_list)
-            a_article=len(article_list)
+        return render(request, 'group.html',locals())
+    else:#若該群組是非公開群組
+        member_list=member.objects.filter(groupID=g_unit,state=0) #0:已加入 1:申請中
+        a_member=len(member_list)
+        a_article=len(article_list)
             
-            for m in member_list:
-                if m.memberID == user:
-                    return render(request, 'group.html',locals())
-                else:
-                    continue
-            return HttpResponseRedirect('/group')
-    else:
-        return HttpResponseRedirect('/accounts/login')
+        for m in member_list:
+            if m.memberID == user:
+                return render(request, 'group.html',locals())
+            else:
+                continue
+        return HttpResponseRedirect('/group')
+
+
+
+    
 @csrf_exempt
 def editGroup(request,index):
     if request.user.is_authenticated:
@@ -299,7 +319,10 @@ def delCategory(request,groupIndex,categoryIndex):
         return HttpResponseRedirect('/accounts/login')
 
 def categories(request,groupID,categoryID):
-    user=UserProfile.objects.get(user=request.user)
+    if request.user.is_authenticated:
+        user=UserProfile.objects.get(user=request.user)
+    else:
+        user=None
     cate_unit=group_category.objects.get(id=categoryID)
     cate_articles_rel=articleGroup_category.objects.filter(categoryID=cate_unit)
     cate_articles=[]
@@ -329,15 +352,18 @@ def delArticle(request,groupIndex,articleIndex):
     else:
         return HttpResponseRedirect('/accounts/login')
 
-def chat(request,group_id):
-    user=UserProfile.objects.get(user=request.user)
-    name=user.name
-    g_unit=group.objects.get(id=group_id)
-    return render(request, 'chat.html',locals())
+# def chat(request,group_id):
+#     user=UserProfile.objects.get(user=request.user)
+#     name=user.name
+#     g_unit=group.objects.get(id=group_id)
+#     return render(request, 'chat.html',locals())
 
 def search(request):
+    if request.user.is_authenticated:
+        user=UserProfile.objects.get(user=request.user)
+    else:
+        user=None
     if 'group_keyword' in request.GET:
-        user=UserProfile.objects.get(user=request.user) 
         keyword=request.GET["group_keyword"]
         search_result=group.objects.filter(Q(name__icontains=keyword)|Q(intro__icontains=keyword)|Q(owner__name__icontains=keyword))
         return render(request, 'group_search.html',locals())
@@ -345,8 +371,11 @@ def search(request):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def article_search(request,index):
-    if "group_article_keyword" in request.GET:
+    if request.user.is_authenticated:
         user=UserProfile.objects.get(user=request.user)
+    else:
+        user=None
+    if "group_article_keyword" in request.GET:
         g_unit=group.objects.get(id=index)
 
         search_way=1#組內搜尋
@@ -368,8 +397,11 @@ def article_search(request,index):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def dashboard(request,index):
-    if request.user.is_authenticated:
-        user=UserProfile.objects.get(user=request.user)
+        if request.user.is_authenticated:
+            user=UserProfile.objects.get(user=request.user)
+        else:
+            user=None
+            
         g_unit=group.objects.get(id=index)
         member_list=member.objects.filter(groupID=g_unit) #群組成員
         article_list=articleGroup.objects.filter(groupID=g_unit) #群組文章
@@ -394,5 +426,4 @@ def dashboard(request,index):
             c.append(contrib_people)
             c_tuples.append(c)        
         return render(request, 'dashboard.html',locals())
-    else:
-        return HttpResponseRedirect('/accounts/login')
+    

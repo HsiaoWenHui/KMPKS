@@ -39,12 +39,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
    #維護中暫不開放
-    #path('', include('home.urls')),
-    #path('accounts/',include('login.urls')),
-    #path('personal/',include('personal.urls')),
-    #path('article/',include('article.urls')),
-    #path('group/',include('group.urls')),
-    url(r'^',views.maintenance), #全導到維護頁面
+    path('', include('home.urls')),
+    path('accounts/',include('login.urls')),
+    path('personal/',include('personal.urls')),
+    path('article/',include('article.urls')),
+    path('group/',include('group.urls')),
+    #url(r'^',views.maintenance), #全導到維護頁面
    
 
     

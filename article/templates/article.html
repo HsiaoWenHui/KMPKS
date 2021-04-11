@@ -93,7 +93,11 @@
                           </div>
                           <div class="comment-body">
                             <h3><a style="color:#000"href="/personal/{{c.created_by.id}}">
-                              {{c.created_by.name}} {% if c.created_by == u_unit %}(作者){%endif%}
+                              {%if c.create_by is None%}Visitor
+                              {%else%}
+                              {{c.created_by.name}} 
+                              {%endif%}
+                              {% if c.created_by == u_unit %}(作者){%endif%}
                             </a></h3>
                           
                             <div class="meta">{{c.created_at}}</div>

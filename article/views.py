@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from article.models import article,tag,category,comment
 from personal.models import UserProfile
-from group.models import member,articleGroup,group
+from group.models import member,articleGroup,group,message
 from django.http import HttpResponseRedirect,HttpResponse
 # from markdownx.views import MarkdownifyView
 from django import forms
@@ -37,52 +37,55 @@ from django.contrib import messages
 def articleIndex(request,index):
     if request.user.is_authenticated:
         user=UserProfile.objects.get(user=request.user)
-        a_unit=article.objects.get(id=index)
-        
-        u_unit=UserProfile.objects.get(id=a_unit.author.id)
-        tags=a_unit.tags.all()
-        categories=a_unit.categorys.all()
-        privacy=a_unit.private ##文章隱私設定: 0:公開 1:私有 2:只有群組成員可以看
-        comments=comment.objects.filter(post=a_unit)
-        comment_count=comment.objects.filter(post=a_unit).count
-        can_read=False
-
-        if a_unit.author == user:
-            can_read=True
-        elif privacy==0:
-            can_read=True
-        elif privacy==2:
-            joined_group=articleGroup.objects.filter(articleID=a_unit) #找出該文章所分享進去的群組
-            joined_group_list=[]
-            for i in joined_group:
-                joined_group_list.append(i.groupID)
-            permission_member = member.objects.filter(groupID__in=joined_group_list) #找出那些群組的成員關聯表
-            if permission_member.filter(memberID=user): #如果使用者有在那些關聯表中 即可觀看文章
-                can_read=True
-            
-        if can_read ==True:
-            if request.method =="GET":
-                a_unit.like=a_unit.like+0.5
-                a_unit.save()
-                return render(request, 'article.html',locals())
-            if request.method =="POST":
-
-                if 'message' in request.POST.keys() and request.POST['message']:
-                    message=request.POST['message']
-                    unit=comment.objects.create(post=a_unit,parent_id=0,created_by=user,content=message)
-                    unit.save()
-                else:
-                    if 'replyTxt' in request.POST.keys() and request.POST['replyTxt']:
-                        reply=request.POST['replyTxt']
-                        p_id=request.POST['parent']
-                        unit=comment.objects.create(post=a_unit,parent_id=p_id,created_by=user,content=reply)
-                        unit.save()
-                return render(request, 'article.html',locals())
-        else:
-            messages.error(request, '你沒有權限閱讀此文章哦') 
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     else:
-        return HttpResponseRedirect('/accounts/login')
+        user=None
+        
+    a_unit=article.objects.get(id=index)
+        
+    u_unit=UserProfile.objects.get(id=a_unit.author.id)
+    tags=a_unit.tags.all()
+    categories=a_unit.categorys.all()
+    privacy=a_unit.private ##文章隱私設定: 0:公開 1:私有 2:只有群組成員可以看
+    comments=comment.objects.filter(post=a_unit)
+    comment_count=comment.objects.filter(post=a_unit).count
+    can_read=False
+
+    if a_unit.author == user:
+        can_read=True
+    elif privacy==0:
+        can_read=True
+    elif privacy==2:
+        joined_group=articleGroup.objects.filter(articleID=a_unit) #找出該文章所分享進去的群組
+        joined_group_list=[]
+        for i in joined_group:
+            joined_group_list.append(i.groupID)
+        permission_member = member.objects.filter(groupID__in=joined_group_list) #找出那些群組的成員關聯表
+        if permission_member.filter(memberID=user): #如果使用者有在那些關聯表中 即可觀看文章
+            can_read=True
+            
+    if can_read ==True:
+        if request.method =="GET":
+            a_unit.like=a_unit.like+0.5
+            a_unit.save()
+            return render(request, 'article.html',locals())
+        if request.method =="POST":
+
+            if 'message' in request.POST.keys() and request.POST['message']:
+                message=request.POST['message']
+                unit=comment.objects.create(post=a_unit,parent_id=0,created_by=user,content=message)
+                unit.save()
+            else:
+                if 'replyTxt' in request.POST.keys() and request.POST['replyTxt']:
+                    reply=request.POST['replyTxt']
+                    p_id=request.POST['parent']
+                    unit=comment.objects.create(post=a_unit,parent_id=p_id,created_by=user,content=reply)
+                    unit.save()
+            return render(request, 'article.html',locals())
+    else:
+        messages.error(request, '你沒有權限閱讀此文章哦') 
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
 def del_comment(request,index,comment_id):
     if request.user.is_authenticated:
         message=comment.objects.get(id=comment_id)
@@ -324,14 +327,20 @@ def editCategory(a,c,o):
     a.save()
     
 def tags(request,index):
-    user=UserProfile.objects.get(user=request.user)
+    if request.user.is_authenticated:
+        user=UserProfile.objects.get(user=request.user)
+    else:
+        user=None
     tag_unit=tag.objects.get(id=index)
     tag_articles=article.objects.filter(tags=tag_unit,private=0)
 
     return render(request, 'tags.html',locals())
 
 def categories(request,index):
-    user=UserProfile.objects.get(user=request.user)
+    if request.user.is_authenticated:
+        user=UserProfile.objects.get(user=request.user)
+    else:
+        user=None
     cate_unit=category.objects.get(id=index)
     cate_articles=article.objects.filter(categorys=cate_unit,private=0)
 
@@ -375,7 +384,10 @@ def search(request):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def all(request):
-    user=UserProfile.objects.get(user=request.user)
+    if request.user.is_authenticated:
+        user=UserProfile.objects.get(user=request.user)
+    else:
+        user=None
     search_result=article.objects.filter(private=0).order_by('-pubtime')
     search_way=2 #指所有文章
     return render(request, 'search.html',locals())
